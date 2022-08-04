@@ -5,7 +5,7 @@ function Login() {
   return (
     <div className="container-form sign-in">
       <form className="formulario">
-        <h2 className="create-account">Iniciar Sesión</h2>
+        <h2 className="create-account">¡Bienvenido!</h2>
         <div className="email">
         <input type="email" placeholder="Email" />
         </div>
