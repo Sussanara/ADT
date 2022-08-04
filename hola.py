@@ -1,1 +1,0 @@
-print("Alpha Dynamite Team Testing")
