@@ -1,12 +1,13 @@
-
+import React from "react";
+import Login from "./shared_component/Login";
 
 
 function App() {
   return (
-    <div className="App">
-      hola
-    </div>
-  );
+    <>
+    <Login />
+  </>
+  )
 }
 
 export default App;
