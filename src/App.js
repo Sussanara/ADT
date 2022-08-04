@@ -1,11 +1,11 @@
-import navbar from "./shared_component/navbar";
+import Navbar from "./shared_component/navbar";
 
 function App() {
   return (
-    <navbar />,
-    <div className="App">
-      hola
-    </div>
+    <>
+      <Navbar />
+      <div className="App"></div>
+    </>
   );
 }
 

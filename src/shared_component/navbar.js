@@ -1,17 +1,17 @@
 import React from "react";
+import "./styles/navbar.css";
 
 export const navbar = () => {
   return (
-    <nav className="navbar" style={{ backgroundColor: "rgba(26, 25, 105, 1)" }}>
+    <nav className="navbar">
       <div className="container-fluid">
         <a className="navbar-brand text-light">Business Inventory</a>
         <form className="d-flex" role="search">
-          <button className="btn btn-outline-success text-light" type="submit">
-            Nombre de Usuario
-          </button>
+          <div className="name_user">
+            <p>Nombre Usuario</p>
+          </div>
           <button
-            className="btn btn-outline-success text-light"
-            style={{ backgroundColor: "red", borderRadius: "100%" }}
+            className="btn_off "
             type="submit"
           >
             <i className="fa-solid fa-power-off" />
@@ -22,4 +22,4 @@ export const navbar = () => {
   );
 };
 
-export default navbar;
+export default navbar

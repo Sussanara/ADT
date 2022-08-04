@@ -1,0 +1,28 @@
+.navbar {
+    background-color: rgba(26, 25, 105, 1);
+}
+
+.navbar-brand {
+    text-shadow: #FFFF 0px 0px 7px;
+}
+
+.btn_off {
+    margin-right: 10px;
+    background-color: #FF0000;
+    border-radius: 100%;
+}
+.btn_off:hover {
+    background-color: rgba(255,69,0,0.9);
+}
+
+
+.name_user {
+    margin-right: 20px;
+    color: #FFFF;
+    height: 28px;
+    width: 127px;
+    padding-left: 5px;
+    border-radius: 10px;
+    text-shadow: #FFFF 0px 0px 2px;
+
+}
