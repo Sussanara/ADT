@@ -25,3 +25,5 @@ yarn-error.log*
 #database related
 /migrations
 Pipfile.lock
+src\database.db
+/src/__pycache__
