@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/navbar.css";
 
 export const navbar = () => {
-  const usuario = "nombre usuario" 
+  const usuario = "nombre usuario";
   return (
     <nav className="navbar">
       <div className="container-fluid">
@@ -11,11 +11,11 @@ export const navbar = () => {
           <div className="name_user">
             <p>{usuario}</p>
           </div>
-            <i className="off fa-solid fa-power-off" />         
+          <i className="off fa-solid fa-power-off" />
         </form>
       </div>
     </nav>
   );
 };
 
-export default navbar
+export default navbar;

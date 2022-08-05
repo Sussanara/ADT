@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/home_user.css";
+import Chartbar from "./chartbar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -18,7 +19,7 @@ export const home_user = () => {
   return (
     <>
       <div>
-        <h1>Visión General de tu Negocio</h1>
+        <Chartbar/>
       </div>
       <div className="title_icon">
         <h3>Artículos</h3>
