@@ -265,6 +265,7 @@ export default function Crud() {
   let dataCliente = [
     {
       id: 1,
+      is_active: true,
       empresa: "Mun. iquique",
       phone: "131312313",
       firstName: "mario",
@@ -275,6 +276,7 @@ export default function Crud() {
     },
     {
       id: 2,
+      is_active: true,
       empresa: "Mun. aca",
       residuo: ["metales ", "vidrios"],
       firstName: "mario2",
@@ -287,6 +289,7 @@ export default function Crud() {
     },
     {
       id: 3,
+      is_active: true,
       empresa: "Mun. nose",
       residuo: ["metales ", "vidrios"],
       firstName: "mario3",
@@ -298,6 +301,7 @@ export default function Crud() {
     },
     {
       id: 4,
+      is_active: true,
       empresa: "Mun. donde",
       residuo: ["metales ", "vidrios"],
       firstName: "mario4",
@@ -309,6 +313,7 @@ export default function Crud() {
     },
     {
       id: 5,
+      is_active: true,
       empresa: "Mun. quien",
       residuo: ["metales ", "vidrios"],
       firstName: "mario5",
@@ -335,11 +340,18 @@ export default function Crud() {
     run: "",
     email: "",
     password: "",
-    name: "",
-    commune: "",
-    razonSocial: "",
+    firstName: "",
+    lastName: "",
+    empresa: "",
     phone: "",
-    contactName: "",
+    is_active:false
+      /* empresa: "Mun. iquique",
+      phone: "131312313",
+      firstName: "mario",
+      lastName: "rodriguez",
+      email: "toychato@matenme.cl",
+      run: 123124124,
+      password: "alga", */
     /* empresa:"",
     residuo:"",
     firstName:"",
@@ -379,14 +391,20 @@ export default function Crud() {
     var dataNueva = data;
     dataNueva.map((cliente) => {
       if (cliente.id === ClienteSelecionado.id) {
-        cliente.name = ClienteSelecionado.name;
-        cliente.commune = ClienteSelecionado.commune;
+        cliente.firstName = ClienteSelecionado.firstName;
+        cliente.lastName = ClienteSelecionado.lastName;
         cliente.email = ClienteSelecionado.email;
         cliente.run = ClienteSelecionado.run;
         cliente.password = ClienteSelecionado.password;
-        cliente.razonSocial = ClienteSelecionado.razonSocial;
-        cliente.contactName = ClienteSelecionado.contactName;
+        cliente.empresa = ClienteSelecionado.empresa;
         cliente.phone = ClienteSelecionado.phone;
+              /* empresa: "Mun. iquique",
+      phone: "131312313",
+      firstName: "mario",
+      lastName: "rodriguez",
+      email: "toychato@matenme.cl",
+      run: 123124124,
+      password: "alga", */
       }
     });
     setData(dataNueva);
@@ -554,7 +572,7 @@ export default function Crud() {
                       <TableCell align="center">{row.phone}</TableCell>
                       <TableCell align="center">{row.email }</TableCell>
                       <TableCell align="center">{row.run}</TableCell>
-                      <TableCell align="center">{row.phone}</TableCell>
+                      <TableCell align="center">{row.password}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -614,8 +632,7 @@ export default function Crud() {
                     aria-label="basic tabs example"
                   >
                     <Tab label="Datos" {...a11yProps(0)} />
-                    <Tab label="Residuos" {...a11yProps(1)} />
-                    <Tab label="Usuario" {...a11yProps(2)} />
+                    <Tab label="Usuario" {...a11yProps(1)} />
                   </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -627,30 +644,55 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Empresa"
                         type="text"
-                        name="name"
-                        value={ClienteSelecionado && ClienteSelecionado.name}
+                        name="empresa"
+                        value={ClienteSelecionado && ClienteSelecionado.empresa}
                         onChange={handleChange}
                       />
+                  {/*      empresa: "Mun. iquique",
+      phone: "131312313",
+      firstName: "mario",
+      lastName: "rodriguez",
+      email: "toychato@matenme.cl",
+      run: 123124124,
+      password: "alga",  */}
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Nombre"
                         type="text"
-                        name="contactName"
+                        name="firstName"
                         value={
-                          ClienteSelecionado && ClienteSelecionado.contactName
+                          ClienteSelecionado && ClienteSelecionado.firstName
+                        }
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} md={4}>
+                      <TextField
+                      sx={{ width: "100%" }}
+                        className="form-control"
+                        variant="outlined"
+                        label="Apellido"
+                        type="text"
+                        name="lastName"
+                        value={
+                          ClienteSelecionado && ClienteSelecionado.lastName
                         }
                         onChange={handleChange}
                       />
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Telefono"
@@ -660,32 +702,9 @@ export default function Crud() {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item xs={12} md={12}>
-                      <TextField
-                        className="form-control"
-                        variant="outlined"
-                        label="Razon Social"
-                        type="text"
-                        name="razonSocial"
-                        value={
-                          ClienteSelecionado && ClienteSelecionado.razonSocial
-                        }
-                        onChange={handleChange}
-                      />
-                    </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                        className="form-control"
-                        variant="outlined"
-                        label="Comuna"
-                        type="text"
-                        name="commune"
-                        value={ClienteSelecionado && ClienteSelecionado.commune}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Rut"
@@ -726,80 +745,12 @@ export default function Crud() {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <div>
-                        <h3>Editar residuos</h3>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <div>
-                        <FormControl sx={{ width: "100%" }}>
-                          <InputLabel id="demo-multiple-checkbox-label">
-                            Residuos
-                          </InputLabel>
-                          <Select
-                            labelId="demo-multiple-checkbox-label"
-                            id="demo-multiple-checkbox"
-                            multiple
-                            value={choiceMaterial}
-                            onChange={handleChangeResiduo}
-                            input={<OutlinedInput label="Tag" />}
-                            renderValue={(selected) => selected.join(", ")}
-                            MenuProps={MenuProps}
-                          >
-                            {materials.map((e) => (
-                              <MenuItem key={e.id} value={e.name}>
-                                {imgUrl(e.url)}
-                                <ListItemAvatar>
-                                  <Avatar
-                                    sx={{ bgcolor: e.color }}
-                                    src={e.url}
-                                  />
-                                </ListItemAvatar>
-                                <Checkbox
-                                  checked={choiceMaterial.indexOf(e.name) > -1}
-                                />
-                                <ListItemText primary={e.name} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    direction="column"
-                    justifyContent="flex-end"
-                    alignItems="flex-end"
-                    mt={2}
-                  >
-                    <Grid item xs={8}>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        onClick={() => asignMaterials()}
-                      >
-                        Actualizar
-                      </Button>
-                      &nbsp;&nbsp;
-                      <Button
-                        color="error"
-                        variant="contained"
-                        onClick={() => setModalEditar(false)}
-                      >
-                        Cancelar
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <div>
                         <h3>Editar usuario y contraseña</h3>
                       </div>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={4}>
                       <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Email"
@@ -809,8 +760,9 @@ export default function Crud() {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={4}>
                       <TextField
+                      sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Contraseña"

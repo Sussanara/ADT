@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Crud from './admin/home';
-
+import ChartBar from './admin/chart';
 import App from './App';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Crud />
+    <ChartBar />
   </React.StrictMode>
 );
 
