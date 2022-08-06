@@ -273,6 +273,7 @@ export default function Crud() {
       email: "toychato@matenme.cl",
       run: 123124124,
       password: "alga",
+
     },
     {
       id: 2,
@@ -289,7 +290,7 @@ export default function Crud() {
     },
     {
       id: 3,
-      is_active: true,
+      is_active: false,
       empresa: "Mun. nose",
       residuo: ["metales ", "vidrios"],
       firstName: "mario3",
@@ -391,6 +392,7 @@ export default function Crud() {
     var dataNueva = data;
     dataNueva.map((cliente) => {
       if (cliente.id === ClienteSelecionado.id) {
+        cliente.is_active = ClienteSelecionado.is_active;
         cliente.firstName = ClienteSelecionado.firstName;
         cliente.lastName = ClienteSelecionado.lastName;
         cliente.email = ClienteSelecionado.email;
@@ -555,6 +557,7 @@ export default function Crud() {
                       <TableCell align="center">Correo</TableCell>
                       <TableCell align="center">Rut</TableCell>
                       <TableCell align="center">Contraseña</TableCell>
+                      <TableCell align="center">actividad</TableCell>
 
                     </TableRow>
                   </TableHead>
@@ -573,6 +576,7 @@ export default function Crud() {
                       <TableCell align="center">{row.email }</TableCell>
                       <TableCell align="center">{row.run}</TableCell>
                       <TableCell align="center">{row.password}</TableCell>
+                      <TableCell align="center">{(row.is_active)?"si":"no"}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
