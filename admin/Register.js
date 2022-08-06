@@ -16,7 +16,7 @@ function Register() {
         '& > :not(style)': {
           m: 1,
           width: 400,
-          height: 400,
+          height: 380,
         },
       }}
     >
@@ -36,7 +36,7 @@ function Register() {
         <TextField id="outlined-basic" label="Email" variant="outlined" />
         <TextField id="outlined-basic" label="Contraseña" variant="outlined" />
       </Box>
-      <div className="iniciarsesión">
+      <div className="registrarse">
         <Stack direction="row" spacing={2}>
           <Button  style={{ backgroundColor: "#0B1F47", color: "white" }}variant="contained" color="success">
             Registrarse

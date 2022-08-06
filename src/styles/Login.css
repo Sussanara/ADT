@@ -6,6 +6,8 @@
 }
 body {
     background: white;
+    background-image: url("../asset/post-it.jpg");
+    background-size: cover;
 }
 
 .Paper {
