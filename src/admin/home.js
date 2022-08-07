@@ -39,7 +39,8 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import logo from "../asset/logo.png";
 import PropTypes from "prop-types";
-
+import AddIcon from '@mui/icons-material/Add';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const cookies = new Cookies();
 function TabPanel(props) {
@@ -259,7 +260,7 @@ export default function Crud() {
     }).then((response) => {
       console.log("here delete god");
       setData(data.filter((cliente) => cliente.id !== ClienteSelecionado.id));
-      setModalEliminar(false);
+      setModalDesactivar(false);
     });
   };
   let dataCliente = [
@@ -273,7 +274,6 @@ export default function Crud() {
       email: "toychato@matenme.cl",
       run: 123124124,
       password: "alga",
-
     },
     {
       id: 2,
@@ -333,7 +333,8 @@ export default function Crud() {
     getMaterials(token);
   }, []);
   const [modalEditar, setModalEditar] = useState(false);
-  const [modalEliminar, setModalEliminar] = useState(false);
+  const [modalDesactivar, setModalDesactivar] = useState(false);
+  const [modalActivar, setModalActivar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalAlert, setModalAlert] = useState(false);
   const [message, setMessage] = useState("false");
@@ -345,8 +346,8 @@ export default function Crud() {
     lastName: "",
     empresa: "",
     phone: "",
-    is_active:false
-      /* empresa: "Mun. iquique",
+    is_active: false,
+    /* empresa: "Mun. iquique",
       phone: "131312313",
       firstName: "mario",
       lastName: "rodriguez",
@@ -379,7 +380,7 @@ export default function Crud() {
   ];
   const selecionarCliente = (row, caso) => {
     setClienteSelecionado(row);
-    caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
+    caso === "Editar" ? setModalEditar(true) : caso=== "Desactivar"? setModalDesactivar(true):setModalActivar(true);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -400,7 +401,7 @@ export default function Crud() {
         cliente.password = ClienteSelecionado.password;
         cliente.empresa = ClienteSelecionado.empresa;
         cliente.phone = ClienteSelecionado.phone;
-              /* empresa: "Mun. iquique",
+        /* empresa: "Mun. iquique",
       phone: "131312313",
       firstName: "mario",
       lastName: "rodriguez",
@@ -412,9 +413,29 @@ export default function Crud() {
     setData(dataNueva);
     setModalEditar(false);
   };
+  const desactivar = () => {
+    var dataNueva = data;
+    dataNueva.map((cliente) => {
+      if (cliente.id === ClienteSelecionado.id) {
+        cliente.is_active = false;
+      }
+    });
+    setData(dataNueva);
+    setModalDesactivar(false);
+  };
+  const activar = () => {
+    var dataNueva = data;
+    dataNueva.map((cliente) => {
+      if (cliente.id === ClienteSelecionado.id) {
+        cliente.is_active = true;
+      }
+    });
+    setData(dataNueva);
+    setModalActivar(false);
+  };
   const eliminar = () => {
     setData(data.filter((cliente) => cliente.id !== ClienteSelecionado.id));
-    setModalEliminar(false);
+    setModalDesactivar(false);
   };
   const abrirModalInsertar = () => {
     setClienteSelecionado(null);
@@ -493,7 +514,102 @@ export default function Crud() {
     cleanErrors();
     return;
   };
-  function Row (props) {
+  function Row(props) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
+
+    return (
+      <React.Fragment>
+        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell align="center" component="th" scope="row">
+            {row.empresa}
+          </TableCell>
+          <TableCell align="center">{`${row.firstName} ${row.lastName}`}</TableCell>
+          <TableCell align="center">
+            {" "}
+            {/*  aca tiene los botones de acciones editar eliminar */}
+            <Grid
+              container
+              spacing={1}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={2}>
+                <Button
+                  style={{ backgroundColor: "#FF9800", color: "white" }}
+                  variant="contained"
+                  startIcon={<EditIcon />}
+                  onClick={() => selecionarCliente(row, "Editar")}
+                ></Button>
+              </Grid>
+              
+              <Grid item xs={12} md={2}>
+                <Button
+                  style={{ backgroundColor: "#F44336", color: "white" }}
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => selecionarCliente(row, "Desactivar")}
+                ></Button>
+              </Grid>
+            </Grid>
+          </TableCell>
+          {/*  aca tiene que los botones de acciones editar eliminar */}
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Informacion Cliente
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Teléfono</TableCell>
+                      <TableCell align="center">Correo</TableCell>
+                      <TableCell align="center">Rut</TableCell>
+                      <TableCell align="center">Contraseña</TableCell>
+                      <TableCell align="center">actividad</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      {/*  empresa: "Mun. iquique",
+                            residuo: ["metales ", "vidrios"],
+                            firstName: "mario",
+                            lastName: "rodriguez",
+                            email: "toychato@matenme.cl",
+                            city: "iquique",
+                            provincia: "iquique",
+                            run: 123124124,
+                            password: "alga", */}
+                      <TableCell align="center">{row.phone}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
+                      <TableCell align="center">{row.run}</TableCell>
+                      <TableCell align="center">{row.password}</TableCell>
+                      <TableCell align="center">
+                        {row.is_active ? "Activo" : "Desactivado"}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+  function Row2(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
 
@@ -532,13 +648,12 @@ export default function Crud() {
               </Grid>
               <Grid item xs={12} md={2}>
                 <Button
-                  style={{ backgroundColor: "#F44336", color: "white" }}
+                  style={{ backgroundColor: "#32CD32", color: "white" }}
                   variant="contained"
-                  startIcon={<DeleteIcon />}
-                  onClick={() => selecionarCliente(row, "Eliminar")}
+                  startIcon={<AddCircleOutlineIcon />}
+                  onClick={() => selecionarCliente(row, "Activar")}
                 ></Button>
               </Grid>
-
             </Grid>
           </TableCell>
           {/*  aca tiene que los botones de acciones editar eliminar */}
@@ -558,12 +673,11 @@ export default function Crud() {
                       <TableCell align="center">Rut</TableCell>
                       <TableCell align="center">Contraseña</TableCell>
                       <TableCell align="center">actividad</TableCell>
-
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow>
-                        {/*  empresa: "Mun. iquique",
+                      {/*  empresa: "Mun. iquique",
                             residuo: ["metales ", "vidrios"],
                             firstName: "mario",
                             lastName: "rodriguez",
@@ -573,10 +687,12 @@ export default function Crud() {
                             run: 123124124,
                             password: "alga", */}
                       <TableCell align="center">{row.phone}</TableCell>
-                      <TableCell align="center">{row.email }</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
                       <TableCell align="center">{row.run}</TableCell>
                       <TableCell align="center">{row.password}</TableCell>
-                      <TableCell align="center">{(row.is_active)?"si":"no"}</TableCell>
+                      <TableCell align="center">
+                        {row.is_active ? "Activo" : "Desactivado"}
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -589,43 +705,77 @@ export default function Crud() {
   }
   return (
     <div>
-
       <Toolbar />
-      <h1>
-        Clientes
-        <IconButton
-          aria-label="fingerprint"
-          color="secondary"
-          style={{ marginTop: `auto` }}
-          onClick={() => abrirModalInsertar()}
-        >
-          <AddCircleIcon
-            style={{ fontSize: 50, fill: "#4CAF50" }}
-            color="success"
-            sx={{}}
-          />
-        </IconButton>{" "}
-      </h1>
 
       <Grid item xs={12}>
         <Box sx={{ display: "flex" }}>
-          <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell align="center">Empresa</TableCell>
-                  <TableCell align="center">Nombre</TableCell>
-                  <TableCell align="center">Acción</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((row) => (
-                  <Row key={row.firstName} row={row} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sx={{ width: "100%" }}>
+              <h1>
+                Clientes Activos
+                <IconButton
+                  aria-label="fingerprint"
+                  color="secondary"
+                  style={{ marginTop: `auto` }}
+                  onClick={() => abrirModalInsertar()}
+                >
+                  <AddCircleIcon
+                    style={{ fontSize: 50, fill: "#4CAF50" }}
+                    color="success"
+                    sx={{}}
+                  />
+                </IconButton>{" "}
+              </h1>
+            </Grid>
+
+            <Grid item xs={12} sx={{ width: "100%" }}>
+              <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell align="center">Empresa</TableCell>
+                      <TableCell align="center">Nombre</TableCell>
+                      <TableCell align="center">Acción</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.map((row) => 
+                      {if(row.is_active){return(<Row key={row.firstName} row={row} />)}
+                      }
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+            <Grid item xs={12} sx={{ width: "100%" }}>
+              <h1>
+              Clientes Desactivados
+
+              </h1>
+            </Grid>
+            <Grid item xs={12} sx={{ width: "100%" }}>
+              <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell align="center">Empresa</TableCell>
+                      <TableCell align="center">Nombre</TableCell>
+                      <TableCell align="center">Acción</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                  {data.map((row) => 
+                      {if(!row.is_active){return(<Row2 key={row.firstName} row={row} />)}
+                      }
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
+
           <Modal open={modalEditar}>
             <Box sx={style}>
               <Box sx={{ width: "100%" }}>
@@ -648,7 +798,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Empresa"
@@ -657,7 +807,7 @@ export default function Crud() {
                         value={ClienteSelecionado && ClienteSelecionado.empresa}
                         onChange={handleChange}
                       />
-                  {/*      empresa: "Mun. iquique",
+                      {/*      empresa: "Mun. iquique",
       phone: "131312313",
       firstName: "mario",
       lastName: "rodriguez",
@@ -667,7 +817,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Nombre"
@@ -679,10 +829,10 @@ export default function Crud() {
                         onChange={handleChange}
                       />
                     </Grid>
-                    
+
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Apellido"
@@ -696,7 +846,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Telefono"
@@ -708,7 +858,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Rut"
@@ -754,7 +904,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Email"
@@ -766,7 +916,7 @@ export default function Crud() {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
-                      sx={{ width: "100%" }}
+                        sx={{ width: "100%" }}
                         className="form-control"
                         variant="outlined"
                         label="Contraseña"
@@ -834,7 +984,7 @@ export default function Crud() {
               </Grid>
             </Box>
           </Modal>
-          <Modal open={modalEliminar}>
+          <Modal open={modalDesactivar}>
             <Box sx={style2}>
               <Grid
                 container
@@ -844,14 +994,14 @@ export default function Crud() {
                 alignItems="center"
               >
                 <Grid item xs={4}>
-                  Estás Seguro que deseas eliminar el cliente{" "}
+                  Estás Seguro que deseas desactivar el cliente{" "}
                   {ClienteSelecionado && ClienteSelecionado.empresa}
                 </Grid>
                 <Grid item xs={4}>
                   <Button
                     color="error"
                     variant="contained"
-                    onClick={() => deleteClient()}
+                    onClick={() => desactivar()}
                   >
                     Si
                   </Button>
@@ -859,7 +1009,40 @@ export default function Crud() {
                   <Button
                     style={{ backgroundColor: "#6d757d", color: "white" }}
                     variant="contained"
-                    onClick={() => setModalEliminar(false)}
+                    onClick={() => setModalDesactivar(false)}
+                  >
+                    No
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Modal>
+          <Modal open={modalActivar}>
+            <Box sx={style2}>
+              <Grid
+                container
+                spacing={2}
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid item xs={4}>
+                  Estás Seguro que deseas activar el cliente{" "}
+                  {ClienteSelecionado && ClienteSelecionado.empresa}
+                </Grid>
+                <Grid item xs={4}>
+                  <Button
+                    style={{ backgroundColor: "#32CD32", color: "white" }}
+                    variant="contained"
+                    onClick={() => activar()}
+                  >
+                    Si
+                  </Button>
+                  &nbsp;&nbsp;
+                  <Button
+                    style={{ backgroundColor: "#6d757d", color: "white" }}
+                    variant="contained"
+                    onClick={() => setModalActivar(false)}
                   >
                     No
                   </Button>
