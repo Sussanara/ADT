@@ -30,17 +30,15 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import logo from "../asset/logo.png";
 import PropTypes from "prop-types";
-import AddIcon from '@mui/icons-material/Add';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 const cookies = new Cookies();
 function TabPanel(props) {
@@ -361,22 +359,22 @@ export default function Crud() {
     city:"", */
   });
   const [formErrors, setError] = useState({
-    contactName: false,
-    run: false,
+    empresa: false,
+    phone: false,
     email: false,
-    name: false,
+    firstName: false,
+    lastName: false,
+    run: false,
     password: false,
-    razonSocial: false,
-    commune: false,
   });
   const keyErrors = [
-    "contactName",
-    "run",
+    "empresa",
+    "phone",
     "email",
-    "name",
+    "firstName",
+    "lastName",
+    "run",
     "password",
-    "razonSocial",
-    "commune",
   ];
   const selecionarCliente = (row, caso) => {
     setClienteSelecionado(row);
@@ -451,7 +449,9 @@ export default function Crud() {
     keyErrors.map((_key) => {
       formErrors[_key] = false;
     });
-  const insertar = async () => {
+  const insertar =  () => {
+    var dataNueva = data
+    ClienteSelecionado.is_active= true
     var valorInsertar = ClienteSelecionado;
     console.log("en insertar ", valorInsertar);
     if (!valorInsertar) return;
@@ -490,27 +490,11 @@ export default function Crud() {
       return;
     }
     // here loader for user;
-    const response = await addRequest(token);
-    console.log("AQUII RESPONSE", response);
-    if (!response) {
-      abrirModalAlerta("Ha ocurrido un error");
-      return;
-    }
-    if (choiceMaterial.length > 0) {
-      const stringM = choiceMaterial
-        .map(
-          (name) =>
-            "ids[]=" + materials.find((m) => m.name == name).id.toString()
-        )
-        .join("&");
-      console.log(stringM);
-      const response2 = await asignMaterials(response.id, stringM, token);
-      console.log("AQUII RESPONSE", response2);
-    }
+    dataNueva.push(valorInsertar)
     setModalInsertar(false);
     //setData
     abrirModalAlerta("Cliente creado correctamente");
-    setData((state) => [...state, response]);
+    setData(dataNueva);
     cleanErrors();
     return;
   };
@@ -556,7 +540,7 @@ export default function Crud() {
                 <Button
                   style={{ backgroundColor: "#F44336", color: "white" }}
                   variant="contained"
-                  startIcon={<DeleteIcon />}
+                  startIcon={<PersonRemoveIcon />}
                   onClick={() => selecionarCliente(row, "Desactivar")}
                 ></Button>
               </Grid>
@@ -650,7 +634,7 @@ export default function Crud() {
                 <Button
                   style={{ backgroundColor: "#32CD32", color: "white" }}
                   variant="contained"
-                  startIcon={<AddCircleOutlineIcon />}
+                  startIcon={<PersonAddAlt1Icon />}
                   onClick={() => selecionarCliente(row, "Activar")}
                 ></Button>
               </Grid>
@@ -1059,79 +1043,91 @@ export default function Crud() {
                       <h3>Insertar Cliente</h3>
                     </div>
                   </Grid>
+                  {/* empresa: "Mun. iquique",
+                  firstName: "mario",
+                  lastName: "rodriguez",
+                  phone: "131312313",
+                  run: 123124124,
+                  email: "toychato@matenme.cl",
+                  password: "alga",  */}
                   <Grid item xs={12} md={4}>
                     <TextField
+                    sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Empresa"
                       type="text"
-                      name="name"
+                      name="empresa"
                       required
-                      error={formErrors.name}
-                      value={ClienteSelecionado ? ClienteSelecionado.name : ""}
+                      error={formErrors.empresa}
+                      value={ClienteSelecionado ? ClienteSelecionado.empresa : ""}
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} md={8}>
-                    <div>
-                      <FormControl sx={{ width: "100%" }}>
-                        <InputLabel id="demo-multiple-checkbox-label">
-                          Residuos
-                        </InputLabel>
-                        <Select
-                          labelId="demo-multiple-checkbox-label"
-                          id="demo-multiple-checkbox"
-                          multiple
-                          value={choiceMaterial}
-                          onChange={handleChangeResiduo}
-                          input={<OutlinedInput label="Tag" />}
-                          renderValue={(selected) => selected.join(", ")}
-                          MenuProps={MenuProps}
-                        >
-                          {materials.map((e) => (
-                            <MenuItem key={e.id} value={e.name}>
-                              {imgUrl(e.url)}
-                              <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: e.color }} src={e.url} />
-                              </ListItemAvatar>
-                              <Checkbox
-                                checked={choiceMaterial.indexOf(e.name) > -1}
-                              />
-                              <ListItemText primary={e.name} />
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </Grid>
+                  
                   <Grid item xs={12} md={4}>
                     <TextField
+                    sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Nombre"
                       type="text"
-                      name="contactName"
+                      name="firstName"
                       required
-                      error={formErrors.contactName}
+                      error={formErrors.firstName}
                       value={
-                        ClienteSelecionado ? ClienteSelecionado.contactName : ""
+                        ClienteSelecionado ? ClienteSelecionado.firstName : ""
                       }
                       onChange={handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
+                    sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
-                      label="Teléfono"
+                      label="Apellido"
+                      type="text"
+                      name="lastName"
+                      required
+                      error={formErrors.lastName}
+                      value={ClienteSelecionado ? ClienteSelecionado.lastName : ""}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                    sx={{ width: "100%" }}
+                      className="form-control"
+                      variant="outlined"
+                      label="Telefono"
                       type="text"
                       name="phone"
+                      required
+                      error={formErrors.phone}
                       value={ClienteSelecionado ? ClienteSelecionado.phone : ""}
                       onChange={handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
+                    sx={{ width: "100%" }}
+                      className="form-control"
+                      variant="outlined"
+                      label="Rut EJ: 12345678-9"
+                      type="text"
+                      name="run"
+                      required
+                      error={formErrors.run}
+                      value={
+                        ClienteSelecionado ? ClienteSelecionado.run : ""
+                      }
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                    sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Correo"
@@ -1139,56 +1135,16 @@ export default function Crud() {
                       name="email"
                       required
                       error={formErrors.email}
-                      value={ClienteSelecionado ? ClienteSelecionado.email : ""}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={12}>
-                    <TextField
-                      className="form-control"
-                      variant="outlined"
-                      label="Razón Social"
-                      type="text"
-                      name="razonSocial"
-                      required
-                      error={formErrors.razonSocial}
                       value={
-                        ClienteSelecionado ? ClienteSelecionado.razonSocial : ""
+                        ClienteSelecionado ? ClienteSelecionado.email : ""
                       }
                       onChange={handleChange}
                     />
                   </Grid>
+
                   <Grid item xs={12} md={4}>
                     <TextField
-                      className="form-control"
-                      variant="outlined"
-                      label="Comuna"
-                      type="text"
-                      name="commune"
-                      required
-                      error={formErrors.commune}
-                      value={
-                        ClienteSelecionado ? ClienteSelecionado.commune : ""
-                      }
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <TextField
-                      className="form-control"
-                      variant="outlined"
-                      label="Rut EJ: 12345678-9"
-                      type="text"
-                      name="run"
-                      helperText="(ingrese Run con guion y sin puntos EJ: 12345678-9)"
-                      required
-                      error={formErrors.run}
-                      value={ClienteSelecionado ? ClienteSelecionado.run : ""}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <TextField
+                    sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Contraseña"
