@@ -6,6 +6,11 @@
   text-shadow: #ffff 0px 0px 7px;
 }
 
+.logo{
+  width: 15px;
+  height: 10px;
+}
+
 .off {
   margin-top: 5px;
   margin-right: 20px;

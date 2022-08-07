@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from 'react';
 import "./styles/home_user.css";
 import Chartbar from "./chartbar";
 import Card from "@mui/material/Card";
@@ -10,20 +10,36 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
 import Paper from "@mui/material/Paper";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 export const home_user = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
       <div>
-        <Chartbar/>
+        <Chartbar />
       </div>
       <div className="title_icon">
         <h3>Artículos</h3>
-        <Icon sx={{ color: "#32CD32", fontSize: 50,}} color="primary">
+        <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">
           add_circle
         </Icon>
       </div>
@@ -49,7 +65,14 @@ export const home_user = () => {
                 sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
               >
                 <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
-                  <CardMedia className="img" component="img" width="" height="240" image="https://picsum.photos/200/300" alt="" />
+                  <CardMedia
+                    className="img"
+                    component="img"
+                    width=""
+                    height="240"
+                    image="https://picsum.photos/200/300"
+                    alt=""
+                  />
 
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -68,11 +91,12 @@ export const home_user = () => {
                       Ganancia: $3.000
                     </Typography>
                   </CardContent>
-                  <CardActions sx={{ marginBottom: 2, justifyContent: 'center' }}>
+                  <CardActions
+                    sx={{ marginBottom: 2, justifyContent: "center" }}
+                  >
                     <Button
                       style={{ backgroundColor: "#F44336", color: "white" }}
-                      variant="contained" 
-                      tooltipTitle={"hola"}
+                      variant="contained"
                     >
                       <DeleteOutlineOutlinedIcon />
                     </Button>
@@ -81,14 +105,15 @@ export const home_user = () => {
                       style={{ backgroundColor: "#FF9800", color: "white" }}
                       variant="contained"
                     >
-                      < ModeEditOutlineOutlinedIcon/>
+                      <ModeEditOutlineOutlinedIcon />
+               
                     </Button>
 
                     <Button
                       style={{ backgroundColor: "#32CD32", color: "white" }}
                       variant="contained"
                     >
-                      < AttachMoneyIcon/>
+                      <AttachMoneyIcon />
                     </Button>
                   </CardActions>
                 </Card>
@@ -97,6 +122,24 @@ export const home_user = () => {
           })}
         </Box>
       </div>
+      <div>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
+    </div>
     </>
   );
 };
