@@ -9,6 +9,13 @@ class Admin(db.Model):
     email = db.Column(db.String(200), nullable = False , unique = True )
     password = db.Column(db.String(200), nullable = False)
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "password" : self.password
+        }
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key = True)
