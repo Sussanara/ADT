@@ -1,11 +1,11 @@
 import Navbar from "./shared_component/navbar";
-import Home_User from "./user/home_user";
+import HomeUser from "./user/home_user";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Home_User />
+      <HomeUser />
       <div className="App"></div>
     </>
   );

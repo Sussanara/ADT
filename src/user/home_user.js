@@ -27,11 +27,13 @@ const style = {
   p: 4,
 };
 
-export const home_user = () => {
+export const HomeUser = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [modalEditar, setModalEditar] = React.useState(false);
+  const handleOpen = () => setModalEditar(true);
+  const handleClose = () => setModalEditar(false);
+
+  
   return (
     <>
       <div>
@@ -104,6 +106,7 @@ export const home_user = () => {
                     <Button
                       style={{ backgroundColor: "#FF9800", color: "white" }}
                       variant="contained"
+                      onClick={handleOpen}
                     >
                       <ModeEditOutlineOutlinedIcon />
                
@@ -123,16 +126,15 @@ export const home_user = () => {
         </Box>
       </div>
       <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
-        open={open}
+        open={modalEditar}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Modal Editar
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
@@ -144,4 +146,4 @@ export const home_user = () => {
   );
 };
 
-export default home_user;
+export default HomeUser;
