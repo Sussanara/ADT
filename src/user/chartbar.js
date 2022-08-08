@@ -25,7 +25,7 @@ function Chartbar() {
             height: "100%",
           }}
         >
-          <h1>Resultados Mensuales </h1>
+          <h1 className="TituloHomeUser">Resultados Mensuales </h1>
           <Typography
             variant="h7"
             noWrap
@@ -43,7 +43,7 @@ function Chartbar() {
             series={[
               {
                 name: "Stock",
-                color:"#0B0ED3",
+                color: "#0B0ED3",
                 data: [
                   540, 605, 514, 671, 327, 513, 301, 452, 752, 520, 657, 260,
                   513,
@@ -51,7 +51,7 @@ function Chartbar() {
               },
               {
                 name: "Unidades Vendidas",
-                color:"#C7D30B",
+                color: "#C7D30B",
                 data: [
                   340, 405, 314, 371, 127, 313, 101, 352, 552, 220, 157, 60,
                   313,
@@ -59,7 +59,7 @@ function Chartbar() {
               },
               {
                 name: "Mermas",
-                color:"#F44336",
+                color: "#F44336",
                 data: [
                   440, 505, 414, 571, 227, 413, 201, 352, 652, 320, 257, 160,
                   413,
@@ -67,7 +67,7 @@ function Chartbar() {
               },
               {
                 name: "Ganancias",
-                color:"#32CD32",
+                color: "#32CD32",
                 data: [23, 42, 35, 27, 43, 22, 17, 31, 42, 22, 12, 16],
               },
             ]}
