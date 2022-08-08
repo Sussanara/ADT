@@ -3,7 +3,7 @@
 }
 
 .backgroundlogin {
-    background: blue;
+
    /*  background-image: url("../asset/post-it.jpg"); */
     background-size: cover;
 }
@@ -12,6 +12,7 @@
     justify-content: center;
     text-align: center;
     display: flex;
+    margin-top: 100px;
 
 }
 

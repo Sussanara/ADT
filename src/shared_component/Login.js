@@ -5,10 +5,16 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import BS3 from "../asset/BS3.png";
 import BS2 from "../asset/BS2.png";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Fondo from "../asset/post-it.jpg"
+
+
+const theme = createTheme();
 
 
 function Login() {
@@ -34,7 +40,24 @@ function Login() {
 
 
   return (
-    <div className="backgroundlogin">
+    <>
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={12}
+          sx={{
+            backgroundImage: `url(${Fondo})` ,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="backgroundlogin">
       <div className="Paper">
         <Box
           sx={{
@@ -43,11 +66,11 @@ function Login() {
             '& > :not(style)': {
               m: 1,
               width: 420,
-              height: 440,
+
             },
           }}
         >
-          <Paper elevation={12} sx={{ maxWidth: 285, maxHeight: 450, marginLeft: 3, margin: 2 }}>
+          <Paper elevation={12} sx={{ maxWidth: 285, marginLeft: 3, margin: 2 }}>
             <h2 className="account">¡Bienvenido a Business Inventory!</h2>
             <img src={BS2} alt="" style={{ height: "120px" }} />
             <Box
@@ -70,9 +93,9 @@ function Login() {
             </div>
             <div className="iniciarsesión">
               <Stack direction="row" spacing={2}>
-                <Button onClick={handleOpenError} style={{ backgroundColor: "#0B1F47", color: "white" }} variant="contained" color="success">
+               {/*  <Button onClick={handleOpenError} style={{ backgroundColor: "#0B1F47", color: "white" }} variant="contained" color="success">
                   Modal error
-                </Button>
+                </Button> */}
               </Stack>
             </div>
           </Paper>
@@ -113,6 +136,12 @@ function Login() {
         </div>
       </div>
     </div>
+        </Grid>
+        
+      </Grid>
+    </ThemeProvider>
+    
+    </>
   );
 }
 
