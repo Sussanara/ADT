@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
-from models import db, Admin, User, Product
+from models import db,Admin, User, Product
 
 app = Flask(__name__)
 app.config['DEBUG'] = True

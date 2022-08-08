@@ -26,7 +26,7 @@ class User(db.Model):
     firstName = db.Column(db.String(200), nullable = False)
     lastName = db.Column(db.String(200), nullable = False)
     run  = db.Column(db.String(200), nullable = False , unique = True)
-    is_active = db.Column(db.Boolean, nullable = False, default=True)
+    is_active = db.Column(db.Boolean, default=True)
     products = db.relationship('Product', backref='user')
 
     def serialize_with_products(self):
@@ -34,12 +34,12 @@ class User(db.Model):
             "id" : self.id,
             "email" : self.email,
             "password" : self.password,
+            "is_active": self.is_active,
             "empresa" : self.empresa,
             "phone" : self.phone,
             "firstName" : self.firstName,
             "lastName" : self.lastName,
             "run" : self.run,
-            "is_active": self.is_active,
             "products": self.get_products()
         }
     
