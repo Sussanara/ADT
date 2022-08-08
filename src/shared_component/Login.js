@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import BS2 from "../asset/BS2.png";
 import BS3 from "../asset/BS3.png";
+import BS2 from "../asset/BS2.png";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 
@@ -48,7 +48,7 @@ function Login() {
       >
         <Paper elevation={12} sx={{ maxWidth: 285, maxHeight: 450, marginLeft: 3, margin: 2 }}>
           <h2 className="account">¡Bienvenido a Business Inventory!</h2>
-          <img src={BS3} alt="" style={{ height: "120px" }} />
+          <img src={BS2} alt="" style={{ height: "120px" }} />
           <Box
             component="form"
             sx={{
