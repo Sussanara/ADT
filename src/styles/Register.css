@@ -1,28 +1,8 @@
-.backgroundregister {
+/* .backgroundregister {
     min-height: 100%;
     min-width: 100%;
     background: white;
     background-image: url("../asset/post-it.jpg");
     background-size: cover;
 }
-
-.Paper {
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    margin-top: 100px;
-}
-
-.account {
-    padding-top: 10px;
-    padding-bottom: 0px;
-}
-
-.registrarse {
-    justify-content: center;
-    text-align: center;
-    margin-left: 77px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    cursor: pointer;
-}
+ */

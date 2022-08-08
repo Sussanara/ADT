@@ -7,7 +7,9 @@ import Register from "./admin/Register";
 function App() {
   return (
     <>
-    <Register />
+
+    <Login />
+
   </>
   )
 }
