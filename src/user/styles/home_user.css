@@ -1,0 +1,42 @@
+h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.title_icon {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-right: 20px;
+  margin-top: 35px;
+}
+
+h3 {
+  margin: 0px 15px 5px 0px;
+  width: 115px;
+}
+
+.img {
+  background-size: auto;
+}
+
+.salesForm {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonSales {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonAdd {
+  display: flex;
+  justify-content: center;
+}
+
+.AddForm {
+  display: flex;
+  justify-content: center;
+}
+
