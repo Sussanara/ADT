@@ -1,0 +1,43 @@
+* {
+   font-family: sans-serif;
+}
+
+.backgroundlogin {
+
+   /*  background-image: url("../asset/post-it.jpg"); */
+    background-size: cover;
+}
+
+.Paper {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin-top: 100px;
+
+}
+
+.account {
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+
+.iniciarsesión {
+    justify-content: center;
+    text-align: center;
+    margin-left: 70px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.registrarse {
+    justify-content: center;
+    text-align: center;
+    margin-left: 77px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.pregunta {
+    padding: 10px;
+    margin-top: 15px;
+}
