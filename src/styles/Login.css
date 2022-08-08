@@ -1,10 +1,8 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
+   font-family: sans-serif;
 }
-body {
+
+.backgroundlogin {
     background: white;
     background-image: url("../asset/post-it.jpg");
     background-size: cover;
