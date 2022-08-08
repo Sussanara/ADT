@@ -35,7 +35,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
-import logo from "../asset/logo.png";
 import PropTypes from "prop-types";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -132,35 +131,12 @@ export default function Crud() {
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
-  const [choiceMaterial, setChoiceMaterial] = React.useState([]);
-  const token = cookies.get("token");
-  const handleChangeResiduo = (event) => setChoiceMaterial(event.target.value);
-  const getMaterials = async (token) => {
-    await axios({
-      method: "GET",
-      url: baseUrl + PATHS.MATERIALS,
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((response) => {
-        return response.data;
-      })
-      .then((response) => {
-        setMaterials(response.rows);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
-  const imgUrl = (e) => {
-    if (e) {
-      e = e;
-    } else {
-      e = logo;
-    }
-  };
+  const token = cookies.get("token");
+
+  
+
+  
   const getClients = async (token) => {
     await axios({
       method: "GET",
@@ -227,25 +203,7 @@ export default function Crud() {
       });
   };
 
-  const asignMaterials = async (id, stringM, token) => {
-    console.log("PRE REGISTER CLIENTE: ", ClienteSelecionado);
-    //[1,2,3,4,5].map((e)=>'ids[]='+e.toString()).join("&")
-    return await axios({
-      method: "POST",
-      url: `${baseUrl}/clients/${id}${PATHS.MATERIALS}?${stringM}`,
-      headers: {
-        Authorization: "Bearer " + token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log("Error ", error.response);
-      });
-  };
+  
   const deleteClient = async () => {
     await axios({
       method: "delete",
@@ -328,7 +286,7 @@ export default function Crud() {
   React.useEffect(() => {
     /* securityLogin(token) */
     getClients(token);
-    getMaterials(token);
+
   }, []);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalDesactivar, setModalDesactivar] = useState(false);
@@ -386,6 +344,8 @@ export default function Crud() {
       ...prevState,
       [name]: value,
     }));
+  
+  
   };
   const editar = () => {
     var dataNueva = data;
@@ -457,7 +417,7 @@ export default function Crud() {
     if (!valorInsertar) return;
     let check = true;
     keyErrors.map((_key) => {
-      if (!check) return;
+      if (!check) ;
       if (!valorInsertar[_key]) {
         setError((prevState) => ({
           ...prevState,
@@ -471,8 +431,51 @@ export default function Crud() {
         }));
       }
     });
-    if (!check) return;
+    /* empresa: "Mun. iquique",
+      phone: "131312313",
+      firstName: "mario",
+      lastName: "rodriguez",
+ */
+    //aqui validar empresa
+      if (!valorInsertar.empresa) {
+        setError((prevState) => ({
+          ...prevState,
+          empresa: true,
+        }));
+        return;
+      }
+    //aqui validar phone
+    if (!valorInsertar.phone) {
+      setError((prevState) => ({
+        ...prevState,
+        phone: true,
+      }));
+      return;
+    }
+    //aqui validar firstName
+    if (!valorInsertar.firstName) {
+      setError((prevState) => ({
+        ...prevState,
+        firstName: true,
+      }));
+      return;
+    }
+    //aqui validar lastName
+    if (!valorInsertar.lastName) {
+      setError((prevState) => ({
+        ...prevState,
+        lastName: true,
+      }));
+      return;
+    }
     //aqui validar rut
+    if (!valorInsertar.run) {
+      setError((prevState) => ({
+        ...prevState,
+        run: true,
+      }));
+      return;
+    }
     //aqui validar email
     if (!valorInsertar.email.includes("@")) {
       setError((prevState) => ({
@@ -909,7 +912,7 @@ export default function Crud() {
                         value={
                           ClienteSelecionado && ClienteSelecionado.password
                         }
-                        helperText="(La contraseña debe tener al menos 8 caracteres y un número)"
+                        helperText="(La contraseña debe tener al menos 8 caracteres)"
                         onChange={handleChange}
                       />
                     </Grid>
@@ -1150,7 +1153,7 @@ export default function Crud() {
                       label="Contraseña"
                       type="text"
                       name="password"
-                      helperText="(La contraseña debe tener al menos 8 caracteres y un número)"
+                      helperText="(La contraseña debe tener al menos 8 caracteres)"
                       required
                       error={formErrors.password}
                       value={
