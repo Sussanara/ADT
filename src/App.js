@@ -13,7 +13,7 @@ import HomeUser from "./user/home_user";
 function App() {
   return (
     <>
-
+    <Navbar />
     <Login />
   </>
   )

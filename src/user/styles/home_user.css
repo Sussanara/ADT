@@ -1,4 +1,4 @@
-h1 {
+.TituloHomeUser{
   text-align: center;
   margin-top: 10px;
 }
@@ -11,32 +11,40 @@ h1 {
   margin-top: 35px;
 }
 
-h3 {
+.subtitleHomeUser {
   margin: 0px 15px 5px 0px;
   width: 115px;
 }
 
-.img {
-  background-size: auto;
-}
-
+/*Formularios */
 .salesForm {
   display: flex;
   justify-content: center;
 }
 
+.AddForm {
+  display: inline-block;
+  justify-content: center;
+
+}
+
+/*Boton de Formularios */
+
 .buttonSales {
   display: flex;
   justify-content: center;
+  margin-top: 8px;
 }
 
 .buttonAdd {
   display: flex;
   justify-content: center;
+  margin-top: 8px;
 }
 
-.AddForm {
+.buttonDelete {
   display: flex;
   justify-content: center;
+  margin-top: 8px;
 }
 
