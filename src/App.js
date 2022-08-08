@@ -2,7 +2,7 @@
 import React from "react";
 import Login from "./shared_component/Login";
 import Register from "./admin/Register";
-import Prueba from "./shared_component/prueba";
+import Crud from './admin/home';
 
 
 
@@ -13,8 +13,9 @@ import HomeUser from "./user/home_user";
 function App() {
   return (
     <>
-    <Navbar />
-    <Login />
+
+    <Crud />
+
   </>
   )
 
