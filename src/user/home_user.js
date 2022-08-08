@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import "./styles/home_user.css";
 import Chartbar from "./chartbar";
 import Card from "@mui/material/Card";
@@ -14,26 +14,30 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
 export const HomeUser = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [modalEditar, setModalEditar] = React.useState(false);
-  const handleOpen = () => setModalEditar(true);
-  const handleClose = () => setModalEditar(false);
+  const [modalEdit, setModalEdit] = React.useState(false);
 
+  const [modalDelete, setModalDelete] = React.useState(false);
   
+  const [modalVentas, setModalventas] = React.useState(false);
+  const [modalAddArticles, setModalAdd] = React.useState(false);
+  // const ingresarVentas = () => setModalAdd(false);
+
   return (
     <>
       <div>
@@ -41,9 +45,13 @@ export const HomeUser = () => {
       </div>
       <div className="title_icon">
         <h3>Artículos</h3>
-        <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">
-          add_circle
-        </Icon>
+        <Button   
+          onClick={()=>{setModalAdd(true)}}
+        >
+          <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">
+            add_circle
+          </Icon>
+        </Button>
       </div>
       <div>
         <Box
@@ -99,6 +107,7 @@ export const HomeUser = () => {
                     <Button
                       style={{ backgroundColor: "#F44336", color: "white" }}
                       variant="contained"
+                      onClick={()=> {setModalDelete(true)}}
                     >
                       <DeleteOutlineOutlinedIcon />
                     </Button>
@@ -106,15 +115,15 @@ export const HomeUser = () => {
                     <Button
                       style={{ backgroundColor: "#FF9800", color: "white" }}
                       variant="contained"
-                      onClick={handleOpen}
+                      onClick={()=> {setModalEdit(true)}}
                     >
                       <ModeEditOutlineOutlinedIcon />
-               
                     </Button>
 
                     <Button
                       style={{ backgroundColor: "#32CD32", color: "white" }}
                       variant="contained"
+                      onClick={()=>{setModalventas(true)}}
                     >
                       <AttachMoneyIcon />
                     </Button>
@@ -126,22 +135,126 @@ export const HomeUser = () => {
         </Box>
       </div>
       <div>
+
       <Modal
-        open={modalEditar}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Modal Editar
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
-    </div>
+          style={{ }}
+          open={modalAddArticles}
+          onClick={()=> {setModalAdd(false)}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+          <div className="AddForm">
+              <TextField
+                id="outlined-number"
+                label="Agregar Artículos"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="outlined-number"
+                label="Agregar Artículos"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="outlined-number"
+                label="Agregar Artículos"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+            <div className="buttonAdd">
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={()=>{setModalAdd(false)}}
+              >
+                Aceptar
+              </Button>
+              &nbsp; &nbsp;
+              <Button
+                style={{ backgroundColor: "#F44336", color: "white" }}
+                variant="contained"
+                onClick={()=>{setModalAdd(false)}}
+              >
+                Cancelar
+              </Button>
+            </div>
+
+          </Box>
+        </Modal>
+
+        <Modal
+          open={modalEdit}
+          onClick={()=> {setModalEdit(false)}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Modal Editar
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={modalDelete}
+          onClick={()=> {setModalDelete(false)}}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div></div>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={modalVentas}
+          
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div className="salesForm">
+              <TextField
+                id="outlined-number"
+                label="Unidades Vendidas"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+            <div className="buttonSales">
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={()=>{setModalventas(false)}}
+              >
+                Aceptar
+              </Button>
+              &nbsp; &nbsp;
+              <Button
+                style={{ backgroundColor: "#F44336", color: "white" }}
+                variant="contained"
+                onClick={()=>{setModalventas(false)}}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </Box>
+        </Modal>
+      </div>
     </>
   );
 };
