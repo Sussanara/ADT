@@ -137,38 +137,34 @@ export const HomeUser = () => {
       <div>
 
       <Modal
-          style={{ }}
           open={modalAddArticles}
-          onClick={()=> {setModalAdd(false)}}
+          
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box className="boxAdd" sx={style}>
           <div className="AddForm">
-              <TextField
+          <TextField
+                required
+                id="outlined-required"
+                label="Nombre de articulo"
+                type = "text"
+                defaultValue="Hello World"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+          <TextField
                 id="outlined-number"
-                label="Agregar Artículos"
+                label="Cantidad de Articulos"
                 type="number"
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
-              <TextField
-                id="outlined-number"
-                label="Agregar Artículos"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <TextField
-                id="outlined-number"
-                label="Agregar Artículos"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+              
+             
             </div>
             <div className="buttonAdd">
               <Button
@@ -209,7 +205,7 @@ export const HomeUser = () => {
 
         <Modal
           open={modalDelete}
-          onClick={()=> {setModalDelete(false)}}
+          
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
