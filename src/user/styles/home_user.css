@@ -28,6 +28,33 @@
 
 }
 
+.titleModalAdd {
+  display: flex;
+  justify-content: center;
+}
+
+.editForm {
+  display: inline-block;
+  justify-content: center;
+}
+
+.titleModalEdit{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.salesForm {
+  display: inline-block;
+  justify-content: center;
+}
+
+.titleModalSales{
+  display: flex;
+  justify-content: center;
+  
+}
+
 /*Boton de Formularios */
 
 .buttonSales {
@@ -43,6 +70,12 @@
 }
 
 .buttonDelete {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.buttonEdit {
   display: flex;
   justify-content: center;
   margin-top: 8px;

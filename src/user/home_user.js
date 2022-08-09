@@ -30,20 +30,21 @@ const style = {
 
 export const HomeUser = () => {
   const array = [
-    { name: "mayo", stock: "123", sold_stock: "33", price: "2500" },
-    { name: "coca-cola", stock: "77", sold_stock: "25", price: "2000" },
+    { name: "mayo", stock: "123", sold_stock: "33", price: "2590" },
+    { name: "coca-cola", stock: "77", sold_stock: "25", price: "2990" },
     { name: "lays", stock: "322", sold_stock: "200", price: "500" },
     { name: "donuts", stock: "44", sold_stock: "12", price: "900" },
-    { name: "orange", stock: "65", sold_stock: "33", price: "2000" },
-    { name: "bimbo", stock: "22", sold_stock: "11", price: "4500" },
-    { name: "sprite", stock: "83", sold_stock: "32", price: "2000" },
-    { name: "chettos", stock: "287", sold_stock: "22", price: "500" },
-    { name: "chocolitos", stock: "50", sold_stock: "12", price: "600" },
-    { name: "lapiz", stock: "300", sold_stock: "147", price: "100" },
+    { name: "orange", stock: "65", sold_stock: "33", price: "2750" },
+    { name: "bimbo", stock: "22", sold_stock: "11", price: "4580" },
+    { name: "sprite", stock: "83", sold_stock: "32", price: "1990" },
+    { name: "chettos", stock: "287", sold_stock: "22", price: "550" },
+    { name: "chocolitos", stock: "50", sold_stock: "12", price: "680" },
+    { name: "lapiz", stock: "300", sold_stock: "147", price: "130" },
   ];
   const [modalEdit, setModalEdit] = React.useState(false);
 
-  const [modalDelete, setModalDelete] = React.useState(false);
+  // const [modalDelete, setModalDelete] = React.useState(false);
+  const [modalDelete2, setModalDelete2] = React.useState(false); 
 
   const [modalVentas, setModalventas] = React.useState(false);
   const [modalAddArticles, setModalAdd] = React.useState(false);
@@ -121,17 +122,18 @@ export const HomeUser = () => {
                   </CardContent>
                   <CardActions
                     sx={{ marginBottom: 2, justifyContent: "center" }}
-                  >
+                    >
+                    {/*Buton Card delete */}
                     <Button
                       style={{ backgroundColor: "#F44336", color: "white" }}
                       variant="contained"
                       onClick={() => {
-                        setModalDelete(true);
+                        setModalDelete2(true);
                       }}
                     >
                       <DeleteOutlineOutlinedIcon />
                     </Button>
-
+                    {/* button Card Edit */}    
                     <Button
                       style={{ backgroundColor: "#FF9800", color: "white" }}
                       variant="contained"
@@ -141,7 +143,7 @@ export const HomeUser = () => {
                     >
                       <ModeEditOutlineOutlinedIcon />
                     </Button>
-
+                      {/* button Card sales */}
                     <Button
                       style={{ backgroundColor: "#32CD32", color: "white" }}
                       variant="contained"
@@ -158,17 +160,23 @@ export const HomeUser = () => {
           })}
         </Box>
       </div>
+        {/*Cards Modals */}
       <div>
-        <Modal
-          style = {{  }}
+        {/*Modal Add Articles */}
+        <Modal 
+          style={{}}
           open={modalAddArticles}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box className="boxAdd" sx={style}>
             <div className="AddForm">
+              <Typography className="titleModalAdd" id="modal-modal-title" variant="h6" component="h2">
+                Agregar Productos
+              </Typography>
+              {/*Form modal Add Articles*/}
               <TextField
-                style={{ width: 330, marginBottom: 15 }}
+                style={{ width: 330, marginBottom: 15, marginTop: 20 }}
                 required
                 id="outlined-required"
                 label="Nombre de Productos"
@@ -177,9 +185,8 @@ export const HomeUser = () => {
                   shrink: true,
                 }}
               />
-              
               <TextField
-                style={{  width: 330, marginBottom: 15 }}
+                style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Stock de productos"
                 type="number"
@@ -187,9 +194,8 @@ export const HomeUser = () => {
                   shrink: true,
                 }}
               />
-              
               <TextField
-              style={{ width: 330, marginBottom: 15 }}
+                style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Valor de productos"
                 type="number"
@@ -198,6 +204,7 @@ export const HomeUser = () => {
                 }}
               />
             </div>
+            {/*Button Add Articles*/}
             <div className="buttonAdd">
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
@@ -222,13 +229,13 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        <Modal
+        {/* <Modal
           open={modalDelete}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-          <div className="deleteForm">
+            <div className="deleteForm">
               <TextField
                 style={{ width: 330, marginBottom: 15 }}
                 required
@@ -239,9 +246,9 @@ export const HomeUser = () => {
                   shrink: true,
                 }}
               />
-              
+
               <TextField
-                style={{  width: 330, marginBottom: 15 }}
+                style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Stock de productos"
                 type="number"
@@ -249,9 +256,9 @@ export const HomeUser = () => {
                   shrink: true,
                 }}
               />
-              
+
               <TextField
-              style={{ width: 330, marginBottom: 15 }}
+                style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Valor de productos"
                 type="number"
@@ -265,7 +272,10 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  setModalDelete(false);
+                  setModalDelete(true);
+                  {
+                    
+                  }
                 }}
               >
                 Aceptar
@@ -282,8 +292,44 @@ export const HomeUser = () => {
               </Button>
             </div>
           </Box>
+        </Modal> */}
+
+        {/*Este modal corresponde a la pregunta para el cliente de si esta seguro que desea eliminar el produto*/}
+        <Modal
+          open={modalDelete2}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              ¿Esta seguro que desea Eliminar este producto?
+            </Typography>
+            {/*Button modal delete */}
+            <div className="buttonEdit">
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  setModalDelete2(false);
+                }}
+              >
+                Si
+              </Button>
+              &nbsp; &nbsp;
+              <Button
+                style={{ backgroundColor: "#F44336", color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  setModalDelete2(false);
+                }}
+              >
+                No
+              </Button>
+            </div>
+          </Box>
         </Modal>
 
+        {/*Modal Edit*/}        
         <Modal
           open={modalEdit}
           aria-labelledby="modal-modal-title"
@@ -291,14 +337,55 @@ export const HomeUser = () => {
         >
           <Box sx={style}>
             <div>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Modal Editar
+              {/*Form modal Edit */}
+              <div className="editForm">
+              <Typography className="titleModalEdit" id="modal-modal-title" variant="h6" component="h2">
+                Editar Productos
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
+                <TextField
+                  style={{ width: 330, marginBottom: 15, marginTop: 20 }}
+                  required
+                  id="outlined-required"
+                  label="Nombre de Productos"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <TextField
+                  style={{ width: 330, marginBottom: 15 }}
+                  id="outlined-number"
+                  label="Stock de productos"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <TextField
+                  style={{ width: 330, marginBottom: 15 }}
+                  id="outlined-number"
+                  label="Unidades Vendidas"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <TextField
+                  style={{ width: 330, marginBottom: 15 }}
+                  id="outlined-number"
+                  label="Valor de productos"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
             </div>
-            <div className="buttonSales">
+            {/*Button modal edit */}
+            <div className="buttonEdit">
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
@@ -322,14 +409,20 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
+        {/*Modal sales */}        
         <Modal
           open={modalVentas}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
+            {/*Sales form */}
             <div className="salesForm">
+            <Typography className="titleModalSales" id="modal-modal-title" variant="h6" component="h2">
+                Productos Vendidos
+              </Typography>
               <TextField
+                style={{ width: 330, marginBottom: 15, marginTop: 20 }}
                 id="outlined-number"
                 label="Unidades Vendidas"
                 type="number"
@@ -338,6 +431,7 @@ export const HomeUser = () => {
                 }}
               />
             </div>
+            {/*buton sales */}
             <div className="buttonSales">
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
