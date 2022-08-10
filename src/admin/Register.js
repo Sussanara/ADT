@@ -85,7 +85,6 @@ function Register() {
               noValidate
               autoComplete="off"
             >
-              <TextField id="outlined-basic" label="Nombre" variant="outlined" />
               <TextField id="outlined-basic" label="Email" variant="outlined" />
               <TextField id="outlined-basic" label="Contraseña" variant="outlined" />
               <Button style={{ backgroundColor: "#0B1F47", color: "white" }} variant="contained" color="success">

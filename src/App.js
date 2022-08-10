@@ -10,9 +10,10 @@ function App() {
   return (
     <>
       <Navbar />
-      <Crud />
+      <Login />
     </>
   );
 }
 
 export default App;
+ 
