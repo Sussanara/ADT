@@ -5,12 +5,13 @@ import Crud from "./admin/home";
 
 import Navbar from "./shared_component/navbar";
 import HomeUser from "./user/home_user";
+import Layout from "./layout";
 
 function App() {
   return (
     <>
-      <Navbar />
-      <Login />
+
+      <Layout />
     </>
   );
 }
