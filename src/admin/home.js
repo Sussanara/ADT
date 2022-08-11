@@ -38,6 +38,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { Context } from "../store/appContext";
 
 const cookies = new Cookies();
 function TabPanel(props) {
@@ -110,23 +111,10 @@ const PATHS = {
   MATERIALS: "/materials",
   CATEGORY: "/material-categories",
 };
-const Alerts = {
-  Rut: {
-    Register: "Este Rut ya se encuentra registrado",
-    Invalid: "El rut no tiene un formato valido",
-  },
-  Password: {
-    Empty: "La contraseña esta vacia",
-    Invalid: "Contraseña debe tener al menos 8 caracteres",
-  },
-  Email: {
-    Empty: "El email esta vacio",
-    Invalid: "Por favor ingrese un correo valido",
-    Register: "El email ya se encuentra asociado a un cliente",
-  },
-};
+
 
 export default function Crud() {
+  const { store, actions } = React.useContext(Context);
   const [value, setValue] = React.useState(0);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
@@ -139,6 +127,7 @@ export default function Crud() {
       method: "GET",
       mode: "cors",
       headers: {
+        Authorization: "Bearer " + store.token,
         "Content-Type": "application/json",
       },
     })
@@ -163,6 +152,7 @@ export default function Crud() {
         method: "PUT",
 
         headers: {
+          Authorization: "Bearer " + store.token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(ClienteSelecionado),
@@ -191,6 +181,7 @@ export default function Crud() {
       method: "POST",
       url: url,
       headers: {
+        Authorization: "Bearer " + store.token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -215,7 +206,7 @@ export default function Crud() {
   const deleteClient = async () => {
     await axios({
       method: "delete",
-      url: baseUrl + PATHS.DELETE + "/" + ClienteSelecionado.id,
+      url: baseUrl,
       headers: {
         Authorization: "Bearer ",
         Accept: "application/json",

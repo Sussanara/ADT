@@ -8,7 +8,10 @@ export const Navbar = () => {
   const usuario = "admin";
   const securityLogin =(msg)=>{
     if(msg=="Successful Login" || msg=="Successful admin login"){console.log("te logeaste bien tienes permitido seguir")}
-    else{window.location.href="http://localhost:3000/"  /* "https://reciclador-resident.web.app" */;}
+    else{window.location.href="http://localhost:3000/"  }
+  }
+  function goHome(){
+    window.location.href="http://localhost:3000/"
   }
   React.useEffect(()=>{
     securityLogin(store.msg)
@@ -20,7 +23,7 @@ export const Navbar = () => {
       <img src={require("../asset/logo4.png")} alt="" width="55" height="45" className="d-inline-block align-text-top mx-1"/>
       Business Inventory
     </a>  
-    <Typography inline variant="h6" align="right" style={{color:"white"}}>{store.userName?store.userName:store.email?store.email:"Nombre de usuario"} <i className="off fa-solid fa-power-off" /></Typography>
+    <Typography inline variant="h6" align="right" style={{color:"white"}}>{store.userName?store.userName:store.email?store.email:"Nombre de usuario"} <i className="off fa-solid fa-power-off" onClick={goHome} /></Typography>
         {/* <form className="d-flex" role="search">
           <div className="name_user">
             <p>{store.userName?store.userName:store.email}  

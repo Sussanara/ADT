@@ -175,8 +175,14 @@ export const HomeUser = () => {
     setModalAdd(false);
     return;
   };
+  const sumAllStock = data.map(item => item.is_active?item.stock:0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllSoldStock = data.map(item => item.is_active?item.sold_stock:0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllEarning = data.map(item => item.is_active?item.sold_stock*item.price:0).reduce((prev, curr) => prev + curr, 0);
+
   function test() {
-    console.log(store.id);
+    console.log(sumAllStock);
+    console.log(sumAllSoldStock);
+    console.log(sumAllEarning);
   }
   /* ******************************************************************************** */
   /* ------------------------funciones de peticion de data--------------------------- */
@@ -189,6 +195,7 @@ export const HomeUser = () => {
         method: "GET",
         mode: "cors",
         headers: {
+          Authorization: "Bearer " + store.token,
           "Content-Type": "application/json",
         },
       }
@@ -217,6 +224,7 @@ export const HomeUser = () => {
         method: "PUT",
 
         headers: {
+          Authorization: "Bearer " + store.token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(productSelected),
@@ -247,6 +255,7 @@ export const HomeUser = () => {
       method: "POST",
       url: `https://api-project-business-inventory.herokuapp.com/api/users/${idUser}`,
       headers: {
+        Authorization: "Bearer " + store.token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -389,11 +398,11 @@ export const HomeUser = () => {
   }
   return (
     <>
-          {/*   <Button onClick={() => {test()}}>
+            <Button onClick={() => {test()}}>
           holo
-        </Button> */}
+        </Button>
       <div>
-        <Chartbar />
+        <Chartbar Stock= {sumAllStock} Earning={sumAllEarning} Sold={sumAllSoldStock} />
       </div>
       <Typography inline variant="h4" align="right" mr={6} mt={6}>
         Artículos
@@ -435,7 +444,9 @@ export const HomeUser = () => {
           })}
           
         </Box>
-
+        <Button onClick={() => {test()}}>
+          holo
+        </Button>
       <Typography inline variant="h4" align="center" >Articulos Desactivados</Typography>
       <Box
           sx={{
