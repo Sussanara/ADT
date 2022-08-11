@@ -442,7 +442,7 @@ export default function Crud() {
     var dataNueva = data;
     ClienteSelecionado.is_active = true;
     var valorInsertar = ClienteSelecionado;
-    console.log("en insertar ", valorInsertar);
+    console.log("en insertarBoton ", valorInsertar);
     if (!valorInsertar) return;
     let check = true;
     keyErrors.map((_key) => {
