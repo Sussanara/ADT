@@ -426,7 +426,9 @@ export const HomeUser = () => {
           }}
         >
           {data.map((product) => {
-            return <CardProduct key={product.id} product={product} />;
+            if(product.is_active){
+              return <CardProduct key={product.id} product={product} />;
+            }
           })}
         </Box>
 
@@ -446,7 +448,7 @@ export const HomeUser = () => {
           }}
         >
           {data.map((product) => {
-            if(product.is_active){
+            if(!product.is_active){
               return <CardProduct2 key={product.id} product={product} />;
             }
           })}
