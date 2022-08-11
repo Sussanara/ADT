@@ -17,6 +17,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Context } from "../store/appContext";
 
 const style = {
   position: "absolute",
@@ -29,8 +30,10 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-let userId = 1;
+
 export const HomeUser = () => {
+  const { store, actions } = React.useContext(Context);
+  let userId = store.userId;
   const dataFalsa = [
     { id: 1, name: "mayo", stock: "123", sold_stock: "33", price: "2500" },
     { id: 2, name: "coca-cola", stock: "77", sold_stock: "25", price: "2000" },
@@ -173,7 +176,7 @@ export const HomeUser = () => {
     return;
   };
   function test() {
-    console.log(data);
+    console.log(store.id);
   }
   /* ******************************************************************************** */
   /* ------------------------funciones de peticion de data--------------------------- */

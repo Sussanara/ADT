@@ -3,14 +3,20 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./shared_component/Login";
 import Register from "./admin/Register";
 import Crud from "./admin/home";
+import { Context } from "./store/appContext";
+import injectContext from "./store/appContext";
 
 import Navbar from "./shared_component/navbar";
 import HomeUser from "./user/home_user";
 
-function Layout() {
+const Layout = () => {
+	
+	//the basename is used when your project is published in a subdirectory and not in the root of the domain
+	// you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+	const basename = process.env.BASENAME || "";
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Switch>
           <Route exact path="/">
             <Login />
@@ -36,4 +42,4 @@ function Layout() {
   );
 }
 
-export default Layout;
+export default injectContext(Layout);

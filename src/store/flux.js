@@ -5,6 +5,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       userName: null,
       is_active: null,
       userId: null,
+      msg:null,
+      token:null
 
 
     },
@@ -61,7 +63,13 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       changeUserId:(data)=>{
         setStore({ userId: data });
+      },    
+      changeMsg:(data)=>{
+        setStore({ msg: data });
       },      
+      changeToken:(data)=>{
+        setStore({ token: data });
+      },    
     },
   };
 };
