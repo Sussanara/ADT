@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./styles/home_user.css";
+import axios from "axios";
 import Chartbar from "./chartbar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -15,6 +16,7 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const style = {
   position: "absolute",
@@ -27,35 +29,376 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
+let userId = 1;
 export const HomeUser = () => {
-  const array = [
-    { name: "mayo", stock: "123", sold_stock: "33", price: "2590" },
-    { name: "coca-cola", stock: "77", sold_stock: "25", price: "2990" },
-    { name: "lays", stock: "322", sold_stock: "200", price: "500" },
-    { name: "donuts", stock: "44", sold_stock: "12", price: "900" },
-    { name: "orange", stock: "65", sold_stock: "33", price: "2750" },
-    { name: "bimbo", stock: "22", sold_stock: "11", price: "4580" },
-    { name: "sprite", stock: "83", sold_stock: "32", price: "1990" },
-    { name: "chettos", stock: "287", sold_stock: "22", price: "550" },
-    { name: "chocolitos", stock: "50", sold_stock: "12", price: "680" },
-    { name: "lapiz", stock: "300", sold_stock: "147", price: "130" },
+  const dataFalsa = [
+    { id: 1, name: "mayo", stock: "123", sold_stock: "33", price: "2500" },
+    { id: 2, name: "coca-cola", stock: "77", sold_stock: "25", price: "2000" },
+    { id: 3, name: "lays", stock: "322", sold_stock: "200", price: "500" },
+    { id: 4, name: "donuts", stock: "44", sold_stock: "12", price: "900" },
+    { id: 5, name: "orange", stock: "65", sold_stock: "33", price: "2000" },
+    { id: 6, name: "bimbo", stock: "22", sold_stock: "11", price: "4500" },
+    { id: 7, name: "sprite", stock: "83", sold_stock: "32", price: "2000" },
+    { id: 8, name: "chettos", stock: "287", sold_stock: "22", price: "500" },
+    { id: 9, name: "chocolitos", stock: "50", sold_stock: "12", price: "600" },
+    { id: 10, name: "lapiz", stock: "300", sold_stock: "147", price: "100" },
   ];
+  const [data, setData] = React.useState(dataFalsa);
   const [modalEdit, setModalEdit] = React.useState(false);
-
-  // const [modalDelete, setModalDelete] = React.useState(false);
-  const [modalDelete2, setModalDelete2] = React.useState(false); 
-
+  const [modalDesactivar, setModalDesactivar] = React.useState(false);
+  const [modalActivar, setModalActivar] = React.useState(false);
   const [modalVentas, setModalventas] = React.useState(false);
   const [modalAddArticles, setModalAdd] = React.useState(false);
-  // const ingresarVentas = () => setModalAdd(false);
+  const [productSelected, setProductSelected] = React.useState({
+    name: "",
+    stock: 0,
+    sold_stock: 0,
+    price: 0,
+    sold_stock2: 0,
+    is_active: true
+  });
+  React.useEffect(() => {
+    /* securityLogin(token) */
+    getDataUser(userId);
+  }, []);
+  const restedProducSeleted = () => {
+    setProductSelected({
+      name: "",
+      stock: 0,
+      sold_stock: 0,
+      price: 0,
+      sold_stock2: 0,
+      is_active: true
+    });
+  };
+  const selectProduct = (product, caso) => {
+    setProductSelected(product);
+    caso === "Editar"
+      ? setModalEdit(true)
+      : caso === "Ventas"
+      ? setModalventas(true)
+      : caso === "Desactivar"
+      ? setModalDesactivar(true)
+      : setModalActivar(true)
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProductSelected((prevState) => ({
+      ...prevState,
+      [name]: Number(value),
+    }));
+  };
+  const handleChangeText = (e) => {
+    const { name, value } = e.target;
+    setProductSelected((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const editProduct = (id) => {
+    console.log(productSelected);
+    var dataNueva = data;
+    dataNueva.map((product) => {
+      if (product.id === productSelected.id) {
+        product.name = productSelected.name;
+        product.sold_stock = productSelected.sold_stock;
+        product.stock = productSelected.stock;
+        product.price = productSelected.price;
+        editDataProduct(productSelected.id, userId);
+      }
+    });
 
+    setModalventas(false);
+    setModalEdit(false);
+  };
+  const editProductSold = (id) => {
+    console.log(productSelected);
+    var dataNueva = data;
+    dataNueva.map((product) => {
+      if (product.id === productSelected.id) {
+        product.name = productSelected.name;
+        product.stock = productSelected.stock;
+        product.sold_stock = productSelected.sold_stock + productSelected.sold_stock2;
+        productSelected.sold_stock = product.sold_stock;
+        product.price = productSelected.price;
+        editDataProduct(productSelected.id, userId);
+      }
+    });
+    setModalventas(false);
+    setModalEdit(false);
+  };
+  const editProductDesactive = (id) => {
+    console.log(productSelected);
+    var dataNueva = data;
+    dataNueva.map((product) => {
+      if (product.id === productSelected.id) {
+        product.is_active = false;
+        productSelected.is_active = false;
+
+        editDataProduct(productSelected.id, userId);
+      }
+    });
+    setModalventas(false);
+    setModalEdit(false);
+    setModalDesactivar(false);
+  };
+  const editProductActive = (id) => {
+    console.log(productSelected);
+    var dataNueva = data;
+    dataNueva.map((product) => {
+      if (product.id === productSelected.id) {
+        product.is_active = true;
+        productSelected.is_active = true;
+        editDataProduct(productSelected.id, userId);
+      }
+    });
+    setModalventas(false);
+    setModalEdit(false);
+    setModalActivar(false);
+  };
+
+  const insertNewProduct = () => {
+    var dataNueva = data;
+    var valorInsertar = productSelected;
+    console.log("en insertaBoton ", valorInsertar);
+
+    // here loader for user;
+    const response = addRequest(userId);
+    console.log("AQUII RESPONSE", response);
+
+    //setData
+    console.log("Cliente creado correctamente");
+    setData(dataNueva);
+    setModalAdd(false);
+    return;
+  };
+  function test() {
+    console.log(data);
+  }
+  /* ******************************************************************************** */
+  /* ------------------------funciones de peticion de data--------------------------- */
+  /* ******************************************************************************** */
+
+  const getDataUser = (userId) => {
+    fetch(
+      `https://api-project-business-inventory.herokuapp.com/api/users/${userId}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        console.log(response);
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        restedProducSeleted();
+        setData(data.products);
+      })
+
+      .catch((error) => {
+        console.log("fallo la peticion");
+        console.log(error);
+      });
+  };
+
+  const editDataProduct = (id, idUser) => {
+    fetch(
+      `https://api-project-business-inventory.herokuapp.com/api/users/${idUser}/products/${id}`,
+      {
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productSelected),
+      }
+    )
+      .then((response) => {
+        console.log("1");
+        console.log(response);
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log("2");
+        console.log(data);
+        restedProducSeleted();
+        getDataUser(userId);
+      })
+
+      .catch((error) => {
+        console.log(productSelected);
+        console.log("fallo la peticion");
+        console.log(error);
+      });
+  };
+  const addRequest = (idUser) => {
+    console.log("PRE REGISTER CLIENTE: ", productSelected);
+    return axios({
+      method: "POST",
+      url: `https://api-project-business-inventory.herokuapp.com/api/users/${idUser}`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: productSelected,
+    })
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .then((data) => {
+        console.log(data);
+        getDataUser(userId);
+      })
+      .catch((error) => {
+        console.log("ESTE ES EL ERROR DEL CATCH");
+        console.log(error);
+        console.log(error.response);
+        console.log("abajo");
+      });
+  };
+  /* *************************************************************************************** */
+  /* *****************************codigo de las cartas************************************** */
+  /* *************************************************************************************** */
+  function CardProduct(props) {
+    const { product } = props;
+
+    return (
+      <React.Fragment>
+        <Paper
+          elevation={8}
+          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
+        >
+          <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+            <CardMedia
+              className="img"
+              component="img"
+              width=""
+              height="240"
+              image="https://picsum.photos/200/300"
+              alt=""
+            />
+
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Stock: {product.stock}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Vendidas: {product.sold_stock}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                valor: ${product.price}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Ganancia: ${product.price * product.sold_stock}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ marginBottom: 2, justifyContent: "center" }}>
+              <Button
+                style={{ backgroundColor: "#F44336", color: "white" }}
+                variant="contained"
+                onClick={() => selectProduct(product, "Desactivar")}
+              >
+                <DeleteOutlineOutlinedIcon />
+              </Button>
+
+              <Button
+                style={{ backgroundColor: "#FF9800", color: "white" }}
+                variant="contained"
+                onClick={() => selectProduct(product, "Editar")}
+              >
+                <ModeEditOutlineOutlinedIcon />
+              </Button>
+
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={() => selectProduct(product, "Ventas")}
+              >
+                <AttachMoneyIcon />
+              </Button>
+            </CardActions>
+          </Card>
+        </Paper>
+      </React.Fragment>
+    );
+  }
+  function CardProduct2(props) {
+    const { product } = props;
+
+    return (
+      <React.Fragment>
+        <Paper
+          elevation={8}
+          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
+        >
+          <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+            <CardMedia
+              className="img"
+              component="img"
+              width=""
+              height="240"
+              image="https://picsum.photos/200/300"
+              alt=""
+            />
+
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Stock: {product.stock}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Vendidas: {product.sold_stock}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                valor: ${product.price}
+              </Typography>
+              <Typography variant="body2" color="text.primary">
+                Ganancia: ${product.price * product.sold_stock}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ marginBottom: 2, justifyContent: "center" }}>
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={() => selectProduct(product, "Activar")}
+              >
+                <AddShoppingCartIcon />
+              </Button>
+
+            </CardActions>
+          </Card>
+        </Paper>
+      </React.Fragment>
+    );
+  }
   return (
     <>
+            <Button onClick={() => {test()}}>
+          holo
+        </Button>
       <div>
         <Chartbar />
       </div>
-      <div className="title_icon">
+      <Typography inline variant="h4" align="right" mr={6} mt={6}>
+        Artículos
+        <Button onClick={() => {setModalAdd(true)}}>
+          <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">add_circle</Icon>
+        </Button>
+      </Typography>
+      {/* <div className="title_icon">
         <h3 className="subtitleHomeUser">Artículos</h3>
         <Button
           onClick={() => {
@@ -66,7 +409,7 @@ export const HomeUser = () => {
             add_circle
           </Icon>
         </Button>
-      </div>
+      </div> */}
       <div>
         <Box
           sx={{
@@ -82,96 +425,51 @@ export const HomeUser = () => {
             },
           }}
         >
-          {array.map((product) => {
-            return (
-              <Paper
-                elevation={8}
-                sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
-              >
-                <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
-                  <CardMedia
-                    className="img"
-                    component="img"
-                    width=""
-                    height="240"
-                    image="https://picsum.photos/200/300"
-                    alt=""
-                  />
-                  {/*   id = db.Column(db.Integer, primary_key = True)
-  owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-  name = db.Column(db.String(200), nullable = False)
-  stock  = db.Column(db.Integer, nullable = False)
-  sold_stock = db.Column(db.Integer, nullable = False)
-  price = db.Column(db.Integer, nullable = False)  */}
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {product.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.primary">
-                      Stock: {product.stock}
-                    </Typography>
-                    <Typography variant="body2" color="text.primary">
-                      Vendidas: {product.sold_stock}
-                    </Typography>
-                    <Typography variant="body2" color="text.primary">
-                      valor: ${product.price}
-                    </Typography>
-                    <Typography variant="body2" color="text.primary">
-                      Ganancia: ${product.price * product.sold_stock}
-                    </Typography>
-                  </CardContent>
-                  <CardActions
-                    sx={{ marginBottom: 2, justifyContent: "center" }}
-                    >
-                    {/*Buton Card delete */}
-                    <Button
-                      style={{ backgroundColor: "#F44336", color: "white" }}
-                      variant="contained"
-                      onClick={() => {
-                        setModalDelete2(true);
-                      }}
-                    >
-                      <DeleteOutlineOutlinedIcon />
-                    </Button>
-                    {/* button Card Edit */}    
-                    <Button
-                      style={{ backgroundColor: "#FF9800", color: "white" }}
-                      variant="contained"
-                      onClick={() => {
-                        setModalEdit(true);
-                      }}
-                    >
-                      <ModeEditOutlineOutlinedIcon />
-                    </Button>
-                      {/* button Card sales */}
-                    <Button
-                      style={{ backgroundColor: "#32CD32", color: "white" }}
-                      variant="contained"
-                      onClick={() => {
-                        setModalventas(true);
-                      }}
-                    >
-                      <AttachMoneyIcon />
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Paper>
-            );
+          {data.map((product) => {
+            return <CardProduct key={product.id} product={product} />;
           })}
         </Box>
+
+      <Typography inline variant="h4" align="right" mr={6}>Articulos Desactivados</Typography>
+      <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            "& > :not(style)": {
+              m: 3,
+              mx: 2,
+              my: 5,
+              width: 270,
+              height: 440,
+            },
+          }}
+        >
+          {data.map((product) => {
+            if(product.is_active){
+              return <CardProduct2 key={product.id} product={product} />;
+            }
+          })}
+          
+        </Box>
       </div>
-        {/*Cards Modals */}
+      {/*Cards Modals */}
       <div>
         {/*Modal Add Articles */}
-        <Modal 
+        <Modal
           style={{}}
           open={modalAddArticles}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box className="boxAdd" sx={style}>
-            <div className="AddForm">
-              <Typography className="titleModalAdd" id="modal-modal-title" variant="h6" component="h2">
+            <div className="AddForm form-group">
+              <Typography
+                className="titleModalAdd"
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
                 Agregar Productos
               </Typography>
               {/*Form modal Add Articles*/}
@@ -180,28 +478,31 @@ export const HomeUser = () => {
                 required
                 id="outlined-required"
                 label="Nombre de Productos"
+                className="form-control"
                 type="text"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                name="name"
+                value={productSelected ? productSelected.name : ""}
+                onChange={handleChangeText}
               />
               <TextField
                 style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Stock de productos"
                 type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                className="form-control"
+                name="stock"
+                value={productSelected ? productSelected.stock : 0}
+                onChange={handleChange}
               />
               <TextField
                 style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
                 label="Valor de productos"
                 type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                className="form-control"
+                name="price"
+                value={productSelected ? productSelected.price : 0}
+                onChange={handleChange}
               />
             </div>
             {/*Button Add Articles*/}
@@ -209,9 +510,7 @@ export const HomeUser = () => {
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
-                onClick={() => {
-                  setModalAdd(false);
-                }}
+                onClick={() => insertNewProduct()}
               >
                 Aceptar
               </Button>
@@ -229,80 +528,14 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        {/* <Modal
-          open={modalDelete}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div className="deleteForm">
-              <TextField
-                style={{ width: 330, marginBottom: 15 }}
-                required
-                id="outlined-required"
-                label="Nombre de Productos"
-                type="text"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-              <TextField
-                style={{ width: 330, marginBottom: 15 }}
-                id="outlined-number"
-                label="Stock de productos"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-              <TextField
-                style={{ width: 330, marginBottom: 15 }}
-                id="outlined-number"
-                label="Valor de productos"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </div>
-            <div className="buttonDelete">
-              <Button
-                style={{ backgroundColor: "#32CD32", color: "white" }}
-                variant="contained"
-                onClick={() => {
-                  setModalDelete(true);
-                  {
-                    
-                  }
-                }}
-              >
-                Aceptar
-              </Button>
-              &nbsp; &nbsp;
-              <Button
-                style={{ backgroundColor: "#F44336", color: "white" }}
-                variant="contained"
-                onClick={() => {
-                  setModalDelete(false);
-                }}
-              >
-                Cancelar
-              </Button>
-            </div>
-          </Box>
-        </Modal> */}
-
-        {/*Este modal corresponde a la pregunta para el cliente de si esta seguro que desea eliminar el produto*/}
         <Modal
-          open={modalDelete2}
+          open={modalDesactivar}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              ¿Esta seguro que desea Eliminar este producto?
+            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+              ¿Esta seguro que desea ELIMINAR este producto?
             </Typography>
             {/*Button modal delete */}
             <div className="buttonEdit">
@@ -310,7 +543,7 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  setModalDelete2(false);
+                  editProductDesactive();
                 }}
               >
                 Si
@@ -320,7 +553,40 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#F44336", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  setModalDelete2(false);
+                  setModalDesactivar(false);
+                }}
+              >
+                No
+              </Button>
+            </div>
+          </Box>
+        </Modal>
+        <Modal
+          open={modalActivar}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+              ¿Esta seguro que desea volver a AGREGAR este producto?
+            </Typography>
+            {/*Button modal delete */}
+            <div className="buttonEdit">
+              <Button
+                style={{ backgroundColor: "#32CD32", color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  editProductActive();
+                }}
+              >
+                Si
+              </Button>
+              &nbsp; &nbsp;
+              <Button
+                style={{ backgroundColor: "#F44336", color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  setModalActivar(false);
                 }}
               >
                 No
@@ -329,7 +595,7 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        {/*Modal Edit*/}        
+        {/*Modal Edit*/}
         <Modal
           open={modalEdit}
           aria-labelledby="modal-modal-title"
@@ -337,60 +603,60 @@ export const HomeUser = () => {
         >
           <Box sx={style}>
             <div>
-              {/*Form modal Edit */}
-              <div className="editForm">
-              <Typography className="titleModalEdit" id="modal-modal-title" variant="h6" component="h2">
-                Editar Productos
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Modal Editar
               </Typography>
-                <TextField
-                  style={{ width: 330, marginBottom: 15, marginTop: 20 }}
-                  required
-                  id="outlined-required"
-                  label="Nombre de Productos"
-                  type="text"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+              <TextField
+                style={{ width: 330, marginBottom: 15, marginTop: 20 }}
+                required
+                id="outlined-required"
+                className="form-control"
+                label="Nombre de Productos"
+                type="text"
+                name="name"
+                value={productSelected && productSelected.name}
+                onChange={handleChangeText}
+              />
 
-                <TextField
-                  style={{ width: 330, marginBottom: 15 }}
-                  id="outlined-number"
-                  label="Stock de productos"
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+              <TextField
+                style={{ width: 330, marginBottom: 15 }}
+                id="outlined-number"
+                className="form-control"
+                label="Stock de productos"
+                type="number"
+                name="stock"
+                value={productSelected && productSelected.stock}
+                onChange={handleChange}
+              />
 
-                <TextField
-                  style={{ width: 330, marginBottom: 15 }}
-                  id="outlined-number"
-                  label="Unidades Vendidas"
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+              <TextField
+                style={{ width: 330, marginBottom: 15 }}
+                id="outlined-number"
+                label="Unidades Vendidas"
+                type="number"
+                name="sold_stock"
+                value={productSelected && productSelected.sold_stock}
+                onChange={handleChange}
+              />
 
-                <TextField
-                  style={{ width: 330, marginBottom: 15 }}
-                  id="outlined-number"
-                  label="Valor de productos"
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </div>
+              <TextField
+                style={{ width: 330, marginBottom: 15 }}
+                id="outlined-number"
+                label="Valor de productos"
+                type="number"
+                name="price"
+                value={productSelected && productSelected.price}
+                onChange={handleChange}
+              />
             </div>
+
             {/*Button modal edit */}
             <div className="buttonEdit">
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  setModalEdit(false);
+                  editProduct();
                 }}
               >
                 Aceptar
@@ -409,7 +675,7 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        {/*Modal sales */}        
+        {/*Modal sales */}
         <Modal
           open={modalVentas}
           aria-labelledby="modal-modal-title"
@@ -418,17 +684,23 @@ export const HomeUser = () => {
           <Box sx={style}>
             {/*Sales form */}
             <div className="salesForm">
-            <Typography className="titleModalSales" id="modal-modal-title" variant="h6" component="h2">
+              <Typography
+                className="titleModalSales"
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
                 Productos Vendidos
               </Typography>
               <TextField
-                style={{ width: 330, marginBottom: 15, marginTop: 20 }}
+                style={{ width: 330, marginBottom: 15 }}
                 id="outlined-number"
+                className="form-control"
                 label="Unidades Vendidas"
                 type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                name="sold_stock2"
+                value={productSelected && productSelected.sold_stock2}
+                onChange={handleChange}
               />
             </div>
             {/*buton sales */}
@@ -437,7 +709,7 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  setModalventas(false);
+                  editProductSold();
                 }}
               >
                 Aceptar
