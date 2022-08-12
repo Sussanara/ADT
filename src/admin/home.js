@@ -166,7 +166,9 @@ export default function Crud() {
       .then((data) => {
         console.log("2");
         console.log(data);
-        setData(data);
+        getDataUsers(
+          "https://api-project-business-inventory.herokuapp.com/api/admin/users"
+        );
       })
 
       .catch((error) => {
@@ -285,7 +287,7 @@ export default function Crud() {
   React.useEffect(() => {
     /* securityLogin(token) */
     getDataUsers(
-      "https://api-project-business-inventory.herokuapp.com/api/users"
+      "https://api-project-business-inventory.herokuapp.com/api/admin/users"
     );
   }, []);
   const [modalEditar, setModalEditar] = useState(false);
