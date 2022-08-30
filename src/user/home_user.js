@@ -15,6 +15,9 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Stack from "@mui/material/Stack";
 
 const style = {
   position: "absolute",
@@ -44,7 +47,7 @@ export const HomeUser = () => {
   const [modalEdit, setModalEdit] = React.useState(false);
 
   // const [modalDelete, setModalDelete] = React.useState(false);
-  const [modalDelete2, setModalDelete2] = React.useState(false); 
+  const [modalDelete2, setModalDelete2] = React.useState(false);
 
   const [modalVentas, setModalventas] = React.useState(false);
   const [modalAddArticles, setModalAdd] = React.useState(false);
@@ -122,7 +125,7 @@ export const HomeUser = () => {
                   </CardContent>
                   <CardActions
                     sx={{ marginBottom: 2, justifyContent: "center" }}
-                    >
+                  >
                     {/*Buton Card delete */}
                     <Button
                       style={{ backgroundColor: "#F44336", color: "white" }}
@@ -133,7 +136,7 @@ export const HomeUser = () => {
                     >
                       <DeleteOutlineOutlinedIcon />
                     </Button>
-                    {/* button Card Edit */}    
+                    {/* button Card Edit */}
                     <Button
                       style={{ backgroundColor: "#FF9800", color: "white" }}
                       variant="contained"
@@ -143,7 +146,7 @@ export const HomeUser = () => {
                     >
                       <ModeEditOutlineOutlinedIcon />
                     </Button>
-                      {/* button Card sales */}
+                    {/* button Card sales */}
                     <Button
                       style={{ backgroundColor: "#32CD32", color: "white" }}
                       variant="contained"
@@ -153,6 +156,16 @@ export const HomeUser = () => {
                     >
                       <AttachMoneyIcon />
                     </Button>
+                    {/* button upload image*/}  
+                    <IconButton
+                      style={{ marginLeft: 6, border: "solid" ,borderColor: "#F0F8FF"  }}
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                    >
+                      <input hidden accept="image/*" type="file" />
+                      <PhotoCamera />
+                    </IconButton>
                   </CardActions>
                 </Card>
               </Paper>
@@ -160,10 +173,10 @@ export const HomeUser = () => {
           })}
         </Box>
       </div>
-        {/*Cards Modals */}
+      {/*Cards Modals */}
       <div>
         {/*Modal Add Articles */}
-        <Modal 
+        <Modal
           style={{}}
           open={modalAddArticles}
           aria-labelledby="modal-modal-title"
@@ -171,7 +184,12 @@ export const HomeUser = () => {
         >
           <Box className="boxAdd" sx={style}>
             <div className="AddForm">
-              <Typography className="titleModalAdd" id="modal-modal-title" variant="h6" component="h2">
+              <Typography
+                className="titleModalAdd"
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
                 Agregar Productos
               </Typography>
               {/*Form modal Add Articles*/}
@@ -302,7 +320,7 @@ export const HomeUser = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              ¿Esta seguro que desea Eliminar este producto?
+              ¿Esta seguro que desea Desactivar este producto?
             </Typography>
             {/*Button modal delete */}
             <div className="buttonEdit">
@@ -329,7 +347,7 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        {/*Modal Edit*/}        
+        {/*Modal Edit*/}
         <Modal
           open={modalEdit}
           aria-labelledby="modal-modal-title"
@@ -339,9 +357,14 @@ export const HomeUser = () => {
             <div>
               {/*Form modal Edit */}
               <div className="editForm">
-              <Typography className="titleModalEdit" id="modal-modal-title" variant="h6" component="h2">
-                Editar Productos
-              </Typography>
+                <Typography
+                  className="titleModalEdit"
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                >
+                  Editar Productos
+                </Typography>
                 <TextField
                   style={{ width: 330, marginBottom: 15, marginTop: 20 }}
                   required
@@ -409,7 +432,7 @@ export const HomeUser = () => {
           </Box>
         </Modal>
 
-        {/*Modal sales */}        
+        {/*Modal sales */}
         <Modal
           open={modalVentas}
           aria-labelledby="modal-modal-title"
@@ -418,7 +441,12 @@ export const HomeUser = () => {
           <Box sx={style}>
             {/*Sales form */}
             <div className="salesForm">
-            <Typography className="titleModalSales" id="modal-modal-title" variant="h6" component="h2">
+              <Typography
+                className="titleModalSales"
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
                 Productos Vendidos
               </Typography>
               <TextField
