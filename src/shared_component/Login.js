@@ -134,8 +134,8 @@ function Login() {
           <CssBaseline />
           <Grid
             item
-            xs={false}
-            sm={12}
+            xs={12}
+
             sx={{
               backgroundImage: `url(${Fondo})`,
               backgroundRepeat: "no-repeat",

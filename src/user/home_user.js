@@ -182,7 +182,7 @@ export const HomeUser = () => {
   const sumAllEarning = data.map(item => item.is_active ? item.sold_stock * item.price : 0).reduce((prev, curr) => prev + curr, 0);
 
   function test() {
-    console.log(sumAllStock);
+    console.log(data);
     console.log(sumAllSoldStock);
     console.log(sumAllEarning);
   }
@@ -295,8 +295,16 @@ export const HomeUser = () => {
       body: formData ,
     })
     .then((response) => {return response.json()})
-    .then((data) => {console.log(data)})
-    .then(getDataUser())
+    .then((data) => {
+      console.log(data)
+      getDataUser(userId)})
+    .catch((error) => {
+        console.log("ESTE ES EL ERROR DEL CATCH");
+        console.log(error);
+        console.log(error.response);
+        console.log("abajo");
+      });
+
 
   }
   /* *************************************************************************************** */
@@ -317,7 +325,7 @@ export const HomeUser = () => {
               component="img"
               width=""
               height="240"
-              image={product.url}
+              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
               alt=""
             />
 
@@ -393,7 +401,7 @@ export const HomeUser = () => {
               component="img"
               width=""
               height="240"
-              image="https://picsum.photos/200/300"
+              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
               alt=""
             />
 
