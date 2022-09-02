@@ -1,5 +1,7 @@
-import React from "react";
+import * as React from 'react';
 import "./styles/navbar.css";
+
+
 
 export const navbar = () => {
   const usuario = "nombre usuario";
@@ -11,10 +13,9 @@ export const navbar = () => {
       Business Inventory
     </a>  
         <form className="d-flex" role="search">
-          <div className="name_user">
-            <p>{usuario}</p>
-          </div>
+          <onclick> 
           <i className="off fa-solid fa-power-off" />
+          </onclick>
         </form>
       </div>
     </nav>

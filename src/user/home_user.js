@@ -56,8 +56,7 @@ export const HomeUser = () => {
   const [modalAddArticles, setModalAdd] = React.useState(false);
   // const ingresarVentas = () => setModalAdd(false);
 
-  const [open, setOpen] = React.useState(true);
-
+  
   return (
     <>
       <div>
@@ -99,13 +98,21 @@ export const HomeUser = () => {
                 <Card sx={{ maxWidth: 280, maxHeight: 560 }}>
                   
                   {/* alert message, low stock */}
+                  {(product.stock-product.sold_stock< product.stock*0.2)?
                   <Stack sx={{ width: "100%" }} spacing={2}>
+                  <Alert severity="warning" aria-label="close">
+                    <AlertTitle>Alerta!</AlertTitle>
+                    Revisar el stock disponible{" "}
+                    <strong>Baja cantidad de stock</strong>
+                  </Alert>
+                </Stack>:null }
+                  {/* <Stack sx={{ width: "100%" }} spacing={2}>
                     <Alert severity="warning" aria-label="close">
                       <AlertTitle>Alerta!</AlertTitle>
                       Revisar el stock disponible{" "}
                       <strong>Baja cantidad de stock</strong>
                     </Alert>
-                  </Stack>
+                  </Stack> */}
 
                   <CardMedia
                     className="img"
