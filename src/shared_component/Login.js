@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Fondo from "../asset/post-it.jpg";
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom'
 
 
 const theme = createTheme();
@@ -100,7 +101,7 @@ function Login() {
                 </Button> */}
                       </Stack>
                     </div>
-                    <div className='mt-3 d-flex justify-content-center'><p>Recover password</p></div>
+                    <div className='mt-3 d-flex justify-content-center'><Link to="/"><p>Recover password</p></Link></div>
                   </Paper>
                 </Box>
                 <div>
