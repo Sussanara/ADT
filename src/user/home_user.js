@@ -18,6 +18,9 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+
 
 const style = {
   position: "absolute",
@@ -53,6 +56,8 @@ export const HomeUser = () => {
   const [modalAddArticles, setModalAdd] = React.useState(false);
   // const ingresarVentas = () => setModalAdd(false);
 
+  const [open, setOpen] = React.useState(true);
+
   return (
     <>
       <div>
@@ -79,9 +84,9 @@ export const HomeUser = () => {
             "& > :not(style)": {
               m: 3,
               mx: 2,
-              my: 5,
+              my: 8,
               width: 270,
-              height: 440,
+              height: 460,
             },
           }}
         >
@@ -91,7 +96,17 @@ export const HomeUser = () => {
                 elevation={8}
                 sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
               >
-                <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+                <Card sx={{ maxWidth: 280, maxHeight: 560 }}>
+                  
+                  {/* alert message, low stock */}
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Alert severity="warning" aria-label="close">
+                      <AlertTitle>Alerta!</AlertTitle>
+                      Revisar el stock disponible{" "}
+                      <strong>Baja cantidad de stock</strong>
+                    </Alert>
+                  </Stack>
+
                   <CardMedia
                     className="img"
                     component="img"
@@ -156,9 +171,13 @@ export const HomeUser = () => {
                     >
                       <AttachMoneyIcon />
                     </Button>
-                    {/* button upload image*/}  
+                    {/* button upload image*/}
                     <IconButton
-                      style={{ marginLeft: 6, border: "solid" ,borderColor: "#F0F8FF"  }}
+                      style={{
+                        marginLeft: 6,
+                        border: "solid",
+                        borderColor: "#F0F8FF",
+                      }}
                       color="primary"
                       aria-label="upload picture"
                       component="label"
