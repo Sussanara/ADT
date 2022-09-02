@@ -18,6 +18,8 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Context } from "../store/appContext";
+import { IconButton } from "@mui/material";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 const style = {
   position: "absolute",
@@ -79,10 +81,10 @@ export const HomeUser = () => {
     caso === "Editar"
       ? setModalEdit(true)
       : caso === "Ventas"
-      ? setModalventas(true)
-      : caso === "Desactivar"
-      ? setModalDesactivar(true)
-      : setModalActivar(true)
+        ? setModalventas(true)
+        : caso === "Desactivar"
+          ? setModalDesactivar(true)
+          : setModalActivar(true)
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,9 +177,9 @@ export const HomeUser = () => {
     setModalAdd(false);
     return;
   };
-  const sumAllStock = data.map(item => item.is_active?item.stock:0).reduce((prev, curr) => prev + curr, 0);
-  const sumAllSoldStock = data.map(item => item.is_active?item.sold_stock:0).reduce((prev, curr) => prev + curr, 0);
-  const sumAllEarning = data.map(item => item.is_active?item.sold_stock*item.price:0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllStock = data.map(item => item.is_active ? item.stock : 0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllSoldStock = data.map(item => item.is_active ? item.sold_stock : 0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllEarning = data.map(item => item.is_active ? item.sold_stock * item.price : 0).reduce((prev, curr) => prev + curr, 0);
 
   function test() {
     console.log(sumAllStock);
@@ -276,6 +278,27 @@ export const HomeUser = () => {
         console.log("abajo");
       });
   };
+
+  const handleImageChange = (e,product_id) => {
+    var img = e.target.files[0]
+    console.log(img)
+    console.log(product_id)
+    let formData = new FormData();
+    formData.set('product_id',product_id)
+    formData.set('image',img)
+
+    for(var pair of formData.entries()){
+      console.log(pair[0]+" , " + pair[1])
+    }
+    fetch("https://api-project-business-inventory.herokuapp.com/api/users/images",{
+      method : "POST",
+      body: formData ,
+    })
+    .then((response) => {return response.json()})
+    .then((data) => {console.log(data)})
+    .then(getDataUser())
+
+  }
   /* *************************************************************************************** */
   /* *****************************codigo de las cartas************************************** */
   /* *************************************************************************************** */
@@ -294,7 +317,7 @@ export const HomeUser = () => {
               component="img"
               width=""
               height="240"
-              image="https://picsum.photos/200/300"
+              image={product.url}
               alt=""
             />
 
@@ -339,6 +362,16 @@ export const HomeUser = () => {
               >
                 <AttachMoneyIcon />
               </Button>
+              {/* button upload image*/}
+              <IconButton
+                style={{ marginLeft: 6, border: "solid", borderColor: "#F0F8FF" }}
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+              >
+                <input hidden accept="image/*" type="file" onChange={(e) => {handleImageChange(e,product.id)}}/>
+                <PhotoCamera />
+              </IconButton>
             </CardActions>
           </Card>
         </Paper>
@@ -389,7 +422,6 @@ export const HomeUser = () => {
               >
                 <AddShoppingCartIcon />
               </Button>
-
             </CardActions>
           </Card>
         </Paper>
@@ -398,15 +430,15 @@ export const HomeUser = () => {
   }
   return (
     <>
-            <Button onClick={() => {test()}}>
-          holo
-        </Button>
+      <Button onClick={() => { test() }}>
+        holo
+      </Button>
       <div>
-        <Chartbar Stock= {sumAllStock} Earning={sumAllEarning} Sold={sumAllSoldStock} />
+        <Chartbar Stock={sumAllStock} Earning={sumAllEarning} Sold={sumAllSoldStock} />
       </div>
       <Typography inline variant="h4" align="right" mr={6} mt={6}>
         Artículos
-        <Button onClick={() => {setModalAdd(true)}}>
+        <Button onClick={() => { setModalAdd(true) }}>
           <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">add_circle</Icon>
         </Button>
       </Typography>
@@ -438,17 +470,17 @@ export const HomeUser = () => {
           }}
         >
           {data.map((product) => {
-            if(product.is_active){
+            if (product.is_active) {
               return <CardProduct key={product.id} product={product} />;
             }
           })}
-          
+
         </Box>
-        <Button onClick={() => {test()}}>
+        <Button onClick={() => { test() }}>
           holo
         </Button>
-      <Typography inline variant="h4" align="center" >Articulos Desactivados</Typography>
-      <Box
+        <Typography inline variant="h4" align="center" >Articulos Desactivados</Typography>
+        <Box
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -463,11 +495,11 @@ export const HomeUser = () => {
           }}
         >
           {data.map((product) => {
-            if(!product.is_active){
+            if (!product.is_active) {
               return <CardProduct2 key={product.id} product={product} />;
             }
           })}
-          
+
         </Box>
       </div>
       {/*Cards Modals */}
@@ -552,9 +584,9 @@ export const HomeUser = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
-              ¿Esta seguro que desea ELIMINAR este producto?
+              ¿Esta seguro que desea DESACTIVAR este producto?
             </Typography>
-            {/*Button modal delete */}
+            {/*Button modal deactivate */}
             <div className="buttonEdit">
               <Button
                 style={{ backgroundColor: "#32CD32", color: "white" }}
