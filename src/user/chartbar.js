@@ -13,7 +13,7 @@ function test() {
   return console.log(totalMeses);
 }
 
-function Chartbar() {
+function Chartbar(props) {
   const clientName = "Kiosco De Don Pato";
 
   return (
@@ -37,38 +37,38 @@ function Chartbar() {
           </Typography>
 
           <Chart
-            type="line"
+            type="bar"
             width={"100%"}
             height={"200%"}
             series={[
               {
                 name: "Stock",
                 color: "#0B0ED3",
-                data: [
+                data: [props.Stock]/* [
                   540, 605, 514, 671, 327, 513, 301, 452, 752, 520, 657, 260,
                   513,
-                ],
+                ] */,
               },
               {
                 name: "Unidades Vendidas",
                 color: "#C7D30B",
-                data: [
+                data: [props.Sold]/* [
                   340, 405, 314, 371, 127, 313, 101, 352, 552, 220, 157, 60,
                   313,
-                ],
+                ] */,
               },
               {
                 name: "Mermas",
                 color: "#F44336",
-                data: [
+                data: [props.Stock-props.Sold] /* [
                   440, 505, 414, 571, 227, 413, 201, 352, 652, 320, 257, 160,
                   413,
-                ],
+                ] */,
               },
               {
-                name: "Ganancias",
+                name: "Ganancias x 1000",
                 color: "#32CD32",
-                data: [23, 42, 35, 27, 43, 22, 17, 31, 42, 22, 12, 16],
+                data: [props.Earning/1000]/* [23, 42, 35, 27, 43, 22, 17, 31, 42, 22, 12, 16] */,
               },
             ]}
             options={{

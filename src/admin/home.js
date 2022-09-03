@@ -36,8 +36,9 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import PropTypes from "prop-types";
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { Context } from "../store/appContext";
 
 const cookies = new Cookies();
 function TabPanel(props) {
@@ -110,23 +111,10 @@ const PATHS = {
   MATERIALS: "/materials",
   CATEGORY: "/material-categories",
 };
-const Alerts = {
-  Rut: {
-    Register: "Este Rut ya se encuentra registrado",
-    Invalid: "El rut no tiene un formato valido",
-  },
-  Password: {
-    Empty: "La contraseña esta vacia",
-    Invalid: "Contraseña debe tener al menos 8 caracteres",
-  },
-  Email: {
-    Empty: "El email esta vacio",
-    Invalid: "Por favor ingrese un correo valido",
-    Register: "El email ya se encuentra asociado a un cliente",
-  },
-};
+
 
 export default function Crud() {
+  const { store, actions } = React.useContext(Context);
   const [value, setValue] = React.useState(0);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
@@ -134,82 +122,95 @@ export default function Crud() {
 
   const token = cookies.get("token");
 
-  
-
-  
-  const getClients = async (token) => {
-    await axios({
+  const getDataUsers = (url) => {
+    fetch(url, {
       method: "GET",
-      url: baseUrl + PATHS.GET,
+      mode: "cors",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + store.token,
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
-        return response.data;
+        console.log(response);
+        return response.json();
       })
-      .then((response) => {
-        setData(response.rows);
+      .then((data) => {
+        console.log(data);
+        setData(data);
       })
+
       .catch((error) => {
+        console.log("fallo la peticion");
         console.log(error);
       });
   };
-  const addRequest = async (token) => {
+  const editDataUsers = (id) => {
+    fetch(
+      `https://api-project-business-inventory.herokuapp.com/api/users/${id}`,
+      {
+        method: "PUT",
+
+        headers: {
+          Authorization: "Bearer " + store.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ClienteSelecionado),
+      }
+    )
+      .then((response) => {
+        console.log("1");
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("2");
+        console.log(data);
+        getDataUsers(
+          "https://api-project-business-inventory.herokuapp.com/api/admin/users"
+        );
+      })
+
+      .catch((error) => {
+        console.log(ClienteSelecionado);
+        console.log("fallo la peticion");
+        console.log(error);
+      });
+  };
+  const addRequest = (url) => {
     console.log("PRE REGISTER CLIENTE: ", ClienteSelecionado);
-    return await axios({
+    return axios({
       method: "POST",
-      url: baseUrl + PATHS.ADD,
+      url: url,
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + store.token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       data: ClienteSelecionado,
     })
       .then((response) => {
+        console.log(response);
         return response.data;
+      })
+      .then((data) => {
+        console.log(data);
+        setData(data);
       })
       .catch((error) => {
         console.log("ESTE ES EL ERROR DEL CATCH");
-        if (error.response.data && error.response.data.errors) {
-          const msg = error.response.data.errors.map((e) => {
-            if (e.property == "run") {
-              if (e.constraints.isUnique) abrirModalAlerta(Alerts.Rut.Register);
-              /* alert("Este Rut ya se encuentra registrado"); */ else if (
-                e.constraints.isRUN
-              )
-                abrirModalAlerta(Alerts.Rut.Invalid);
-            }
-            if (e.property == "password") {
-              if (e.constraints.isNotEmpty) {
-                abrirModalAlerta(Alerts.Password.Empty);
-              } else if (e.constraints.isLength) {
-                abrirModalAlerta(Alerts.Password.Invalid);
-              }
-            }
-            if (e.property == "email") {
-              if (e.constraints.isNotEmpty)
-                abrirModalAlerta(Alerts.Email.Empty);
-              else if (e.constraints.isEmail)
-                abrirModalAlerta(Alerts.Email.Invalid);
-              else if (e.constraints.isUnique)
-                abrirModalAlerta(Alerts.Email.Register);
-            }
-          });
-        }
+        console.log(error);
         console.log(error.response);
         console.log("abajo");
       });
   };
 
-  
   const deleteClient = async () => {
     await axios({
       method: "delete",
-      url: baseUrl + PATHS.DELETE + "/" + ClienteSelecionado.id,
+      url: baseUrl,
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer ",
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -285,8 +286,9 @@ export default function Crud() {
   const [materials, setMaterials] = useState([]);
   React.useEffect(() => {
     /* securityLogin(token) */
-    getClients(token);
-
+    getDataUsers(
+      "https://api-project-business-inventory.herokuapp.com/api/admin/users"
+    );
   }, []);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalDesactivar, setModalDesactivar] = useState(false);
@@ -336,7 +338,11 @@ export default function Crud() {
   ];
   const selecionarCliente = (row, caso) => {
     setClienteSelecionado(row);
-    caso === "Editar" ? setModalEditar(true) : caso=== "Desactivar"? setModalDesactivar(true):setModalActivar(true);
+    caso === "Editar"
+      ? setModalEditar(true)
+      : caso === "Desactivar"
+      ? setModalDesactivar(true)
+      : setModalActivar(true);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -344,10 +350,9 @@ export default function Crud() {
       ...prevState,
       [name]: value,
     }));
-  
-  
   };
-  const editar = () => {
+
+  const editar2 = () => {
     var dataNueva = data;
     dataNueva.map((cliente) => {
       if (cliente.id === ClienteSelecionado.id) {
@@ -359,37 +364,54 @@ export default function Crud() {
         cliente.password = ClienteSelecionado.password;
         cliente.empresa = ClienteSelecionado.empresa;
         cliente.phone = ClienteSelecionado.phone;
-        /* empresa: "Mun. iquique",
-      phone: "131312313",
-      firstName: "mario",
-      lastName: "rodriguez",
-      email: "toychato@matenme.cl",
-      run: 123124124,
-      password: "alga", */
       }
     });
+
     setData(dataNueva);
     setModalEditar(false);
+  };
+  const editar = (id) => {
+    var dataNueva = data;
+    dataNueva.map((cliente) => {
+      if (cliente.id === ClienteSelecionado.id) {
+        cliente.is_active = ClienteSelecionado.is_active;
+        cliente.firstName = ClienteSelecionado.firstName;
+        cliente.lastName = ClienteSelecionado.lastName;
+        cliente.email = ClienteSelecionado.email;
+        cliente.run = ClienteSelecionado.run;
+        cliente.password = ClienteSelecionado.password;
+        cliente.empresa = ClienteSelecionado.empresa;
+        cliente.phone = ClienteSelecionado.phone;
+        editDataUsers(ClienteSelecionado.id);
+      }
+    });
+
+    setModalEditar(false);
+  };
+
+  const activar = () => {
+    var dataNueva = data;
+    dataNueva.map((cliente) => {
+      if (cliente.id === ClienteSelecionado.id) {
+        cliente.is_active = true;
+        ClienteSelecionado.is_active = true;
+        editDataUsers(ClienteSelecionado.id);
+      }
+    });
+
+    setModalActivar(false);
   };
   const desactivar = () => {
     var dataNueva = data;
     dataNueva.map((cliente) => {
       if (cliente.id === ClienteSelecionado.id) {
         cliente.is_active = false;
+        ClienteSelecionado.is_active = false;
+        editDataUsers(ClienteSelecionado.id);
       }
     });
-    setData(dataNueva);
+
     setModalDesactivar(false);
-  };
-  const activar = () => {
-    var dataNueva = data;
-    dataNueva.map((cliente) => {
-      if (cliente.id === ClienteSelecionado.id) {
-        cliente.is_active = true;
-      }
-    });
-    setData(dataNueva);
-    setModalActivar(false);
   };
   const eliminar = () => {
     setData(data.filter((cliente) => cliente.id !== ClienteSelecionado.id));
@@ -409,15 +431,15 @@ export default function Crud() {
     keyErrors.map((_key) => {
       formErrors[_key] = false;
     });
-  const insertar =  () => {
-    var dataNueva = data
-    ClienteSelecionado.is_active= true
+  const insertar = () => {
+    var dataNueva = data;
+    ClienteSelecionado.is_active = true;
     var valorInsertar = ClienteSelecionado;
-    console.log("en insertar ", valorInsertar);
+    console.log("en insertarBoton ", valorInsertar);
     if (!valorInsertar) return;
     let check = true;
     keyErrors.map((_key) => {
-      if (!check) ;
+      if (!check);
       if (!valorInsertar[_key]) {
         setError((prevState) => ({
           ...prevState,
@@ -437,13 +459,13 @@ export default function Crud() {
       lastName: "rodriguez",
  */
     //aqui validar empresa
-      if (!valorInsertar.empresa) {
-        setError((prevState) => ({
-          ...prevState,
-          empresa: true,
-        }));
-        return;
-      }
+    if (!valorInsertar.empresa) {
+      setError((prevState) => ({
+        ...prevState,
+        empresa: true,
+      }));
+      return;
+    }
     //aqui validar phone
     if (!valorInsertar.phone) {
       setError((prevState) => ({
@@ -493,7 +515,15 @@ export default function Crud() {
       return;
     }
     // here loader for user;
-    dataNueva.push(valorInsertar)
+    const response = addRequest(
+      "https://api-project-business-inventory.herokuapp.com/api/users"
+    );
+    console.log("AQUII RESPONSE", response);
+    if (!response) {
+      abrirModalAlerta("Ha ocurrido un error");
+      return;
+    }
+
     setModalInsertar(false);
     //setData
     abrirModalAlerta("Cliente creado correctamente");
@@ -538,7 +568,7 @@ export default function Crud() {
                   onClick={() => selecionarCliente(row, "Editar")}
                 ></Button>
               </Grid>
-              
+
               <Grid item xs={12} md={2}>
                 <Button
                   style={{ backgroundColor: "#F44336", color: "white" }}
@@ -727,19 +757,17 @@ export default function Crud() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data.map((row) => 
-                      {if(row.is_active){return(<Row key={row.firstName} row={row} />)}
+                    {data.map((row, i) => {
+                      if (row.is_active) {
+                        return <Row key={row.id} row={row} />;
                       }
-                    )}
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Grid>
             <Grid item xs={12} sx={{ width: "100%" }}>
-              <h1>
-              Clientes Desactivados
-
-              </h1>
+              <h1>Clientes Desactivados</h1>
             </Grid>
             <Grid item xs={12} sx={{ width: "100%" }}>
               <TableContainer component={Paper}>
@@ -753,10 +781,11 @@ export default function Crud() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  {data.map((row) => 
-                      {if(!row.is_active){return(<Row2 key={row.firstName} row={row} />)}
+                    {data.map((row, u) => {
+                      if (!row.is_active) {
+                        return <Row2 key={row.id} row={row} />;
                       }
-                    )}
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -794,13 +823,6 @@ export default function Crud() {
                         value={ClienteSelecionado && ClienteSelecionado.empresa}
                         onChange={handleChange}
                       />
-                      {/*      empresa: "Mun. iquique",
-      phone: "131312313",
-      firstName: "mario",
-      lastName: "rodriguez",
-      email: "toychato@matenme.cl",
-      run: 123124124,
-      password: "alga",  */}
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <TextField
@@ -1046,16 +1068,9 @@ export default function Crud() {
                       <h3>Insertar Cliente</h3>
                     </div>
                   </Grid>
-                  {/* empresa: "Mun. iquique",
-                  firstName: "mario",
-                  lastName: "rodriguez",
-                  phone: "131312313",
-                  run: 123124124,
-                  email: "toychato@matenme.cl",
-                  password: "alga",  */}
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Empresa"
@@ -1063,14 +1078,16 @@ export default function Crud() {
                       name="empresa"
                       required
                       error={formErrors.empresa}
-                      value={ClienteSelecionado ? ClienteSelecionado.empresa : ""}
+                      value={
+                        ClienteSelecionado ? ClienteSelecionado.empresa : ""
+                      }
                       onChange={handleChange}
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Nombre"
@@ -1086,7 +1103,7 @@ export default function Crud() {
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Apellido"
@@ -1094,13 +1111,15 @@ export default function Crud() {
                       name="lastName"
                       required
                       error={formErrors.lastName}
-                      value={ClienteSelecionado ? ClienteSelecionado.lastName : ""}
+                      value={
+                        ClienteSelecionado ? ClienteSelecionado.lastName : ""
+                      }
                       onChange={handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Telefono"
@@ -1114,7 +1133,7 @@ export default function Crud() {
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Rut EJ: 12345678-9"
@@ -1122,15 +1141,13 @@ export default function Crud() {
                       name="run"
                       required
                       error={formErrors.run}
-                      value={
-                        ClienteSelecionado ? ClienteSelecionado.run : ""
-                      }
+                      value={ClienteSelecionado ? ClienteSelecionado.run : ""}
                       onChange={handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Correo"
@@ -1138,16 +1155,14 @@ export default function Crud() {
                       name="email"
                       required
                       error={formErrors.email}
-                      value={
-                        ClienteSelecionado ? ClienteSelecionado.email : ""
-                      }
+                      value={ClienteSelecionado ? ClienteSelecionado.email : ""}
                       onChange={handleChange}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={4}>
                     <TextField
-                    sx={{ width: "100%" }}
+                      sx={{ width: "100%" }}
                       className="form-control"
                       variant="outlined"
                       label="Contraseña"

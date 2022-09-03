@@ -1,0 +1,22 @@
+id 1 
+marcoaurelio@gmail.com
+seneca
+
+id 2
+empanada
+
+id 3
+golosina
+
+id 4
+cocacolaespuma
+
+
+---------------------------------
+ADMIN
+id 1
+johntravolta@gmail.com
+empanada
+id 2
+f.vasquez@gmail.com
+aloha
