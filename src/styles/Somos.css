@@ -3,8 +3,3 @@ hr{
     background-color: #0B1F47;
 }
 
-@media screen and (max-width: 2500px){
-    .row{
-        justify-content: baseline;
-    }
-}
