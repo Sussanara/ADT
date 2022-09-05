@@ -291,12 +291,12 @@ export const HomeUser = () => {
       console.log(pair[0]+" , " + pair[1])
     }
     fetch("https://api-project-business-inventory.herokuapp.com/api/users/images",{
-      method : "POST",
+      method : "PUT",
       body: formData ,
     })
     .then((response) => {return response.json()})
     .then((data) => {console.log(data)})
-    .then(getDataUser())
+    .then(getDataUser(userId))
 
   }
   /* *************************************************************************************** */
