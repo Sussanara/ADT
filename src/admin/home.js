@@ -490,7 +490,7 @@ export default function Crud() {
       }));
       return;
     }
-    //aqui validar rut
+    //aqui validar rut -> modulo 11 para comprobar
     if (!valorInsertar.run) {
       setError((prevState) => ({
         ...prevState,
@@ -498,7 +498,7 @@ export default function Crud() {
       }));
       return;
     }
-    //aqui validar email
+    //aqui validar email -> comprobamos con regex
     if (!valorInsertar.email.includes("@")) {
       setError((prevState) => ({
         ...prevState,

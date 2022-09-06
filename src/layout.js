@@ -8,6 +8,7 @@ import injectContext from "./store/appContext";
 
 import Navbar from "./shared_component/navbar";
 import HomeUser from "./user/home_user";
+import HomeUserTrial from "./freetrial/home_user";
 
 const Layout = () => {
 	
@@ -32,6 +33,10 @@ const Layout = () => {
           <Route exact path="/user">
             <Navbar />
             <HomeUser />
+          </Route>
+          <Route exact path="/trial">
+            <Navbar />
+            <HomeUserTrial />
           </Route>
           <Route>
             <h1>Not found!</h1>
