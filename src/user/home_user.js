@@ -16,10 +16,15 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Context } from "../store/appContext";
 import { IconButton } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import HouseIcon from "@mui/icons-material/House";
+import { useHistory } from "react-router-dom";
+import { BorderAllRounded } from "@mui/icons-material";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 
 const style = {
   position: "absolute",
@@ -35,6 +40,7 @@ const style = {
 
 export const HomeUser = () => {
   const { store, actions } = React.useContext(Context);
+  let history = useHistory();
   let userId = store.userId;
   const dataFalsa = [
     { id: 1, name: "mayo", stock: "123", sold_stock: "33", price: "2500" },
@@ -49,18 +55,20 @@ export const HomeUser = () => {
     { id: 10, name: "lapiz", stock: "300", sold_stock: "147", price: "100" },
   ];
   const [data, setData] = React.useState(dataFalsa);
+  const [empresa, setEmpresa] = React.useState(false);
   const [modalEdit, setModalEdit] = React.useState(false);
   const [modalDesactivar, setModalDesactivar] = React.useState(false);
   const [modalActivar, setModalActivar] = React.useState(false);
   const [modalVentas, setModalventas] = React.useState(false);
   const [modalAddArticles, setModalAdd] = React.useState(false);
+  const [errorSold, setErrorSold] = React.useState(false);
   const [productSelected, setProductSelected] = React.useState({
     name: "",
     stock: 0,
     sold_stock: 0,
     price: 0,
     sold_stock2: 0,
-    is_active: true
+    is_active: true,
   });
   React.useEffect(() => {
     /* securityLogin(token) */
@@ -73,7 +81,7 @@ export const HomeUser = () => {
       sold_stock: 0,
       price: 0,
       sold_stock2: 0,
-      is_active: true
+      is_active: true,
     });
   };
   const selectProduct = (product, caso) => {
@@ -81,10 +89,10 @@ export const HomeUser = () => {
     caso === "Editar"
       ? setModalEdit(true)
       : caso === "Ventas"
-        ? setModalventas(true)
-        : caso === "Desactivar"
-          ? setModalDesactivar(true)
-          : setModalActivar(true)
+      ? setModalventas(true)
+      : caso === "Desactivar"
+      ? setModalDesactivar(true)
+      : setModalActivar(true);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,11 +127,16 @@ export const HomeUser = () => {
   const editProductSold = (id) => {
     console.log(productSelected);
     var dataNueva = data;
+    if (((productSelected.sold_stock2 + productSelected.sold_stock) > productSelected.stock)) {
+      setErrorSold(true);
+      return;
+    }
     dataNueva.map((product) => {
       if (product.id === productSelected.id) {
         product.name = productSelected.name;
         product.stock = productSelected.stock;
-        product.sold_stock = productSelected.sold_stock + productSelected.sold_stock2;
+        product.sold_stock =
+          productSelected.sold_stock + productSelected.sold_stock2;
         productSelected.sold_stock = product.sold_stock;
         product.price = productSelected.price;
         editDataProduct(productSelected.id, userId);
@@ -131,6 +144,7 @@ export const HomeUser = () => {
     });
     setModalventas(false);
     setModalEdit(false);
+    setErrorSold(false);
   };
   const editProductDesactive = (id) => {
     console.log(productSelected);
@@ -177,9 +191,15 @@ export const HomeUser = () => {
     setModalAdd(false);
     return;
   };
-  const sumAllStock = data.map(item => item.is_active ? item.stock : 0).reduce((prev, curr) => prev + curr, 0);
-  const sumAllSoldStock = data.map(item => item.is_active ? item.sold_stock : 0).reduce((prev, curr) => prev + curr, 0);
-  const sumAllEarning = data.map(item => item.is_active ? item.sold_stock * item.price : 0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllStock = data
+    .map((item) => (item.is_active ? item.stock : 0))
+    .reduce((prev, curr) => prev + curr, 0);
+  const sumAllSoldStock = data
+    .map((item) => (item.is_active ? item.sold_stock : 0))
+    .reduce((prev, curr) => prev + curr, 0);
+  const sumAllEarning = data
+    .map((item) => (item.is_active ? item.sold_stock * item.price : 0))
+    .reduce((prev, curr) => prev + curr, 0);
 
   function test() {
     console.log(data);
@@ -209,7 +229,9 @@ export const HomeUser = () => {
       })
       .then((data) => {
         console.log(data);
+        console.log("hola soy el console log de getdata userid");
         restedProducSeleted();
+        setEmpresa(data.empresa);
         setData(data.products);
       })
 
@@ -279,34 +301,38 @@ export const HomeUser = () => {
       });
   };
 
-  const handleImageChange = (e,product_id) => {
-    var img = e.target.files[0]
-    console.log(img)
-    console.log(product_id)
+  const handleImageChange = (e, product_id) => {
+    var img = e.target.files[0];
+    console.log(img);
+    console.log(product_id);
     let formData = new FormData();
-    formData.set('product_id',product_id)
-    formData.set('image',img)
+    formData.set("product_id", product_id);
+    formData.set("image", img);
 
-    for(var pair of formData.entries()){
-      console.log(pair[0]+" , " + pair[1])
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + " , " + pair[1]);
     }
-    fetch("https://api-project-business-inventory.herokuapp.com/api/users/images",{
-      method : "POST",
-      body: formData ,
-    })
-    .then((response) => {return response.json()})
-    .then((data) => {
-      console.log(data)
-      getDataUser(userId)})
-    .catch((error) => {
+    fetch(
+      "https://api-project-business-inventory.herokuapp.com/api/users/images",
+      {
+        method: "PUT",
+        body: formData,
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        getDataUser(userId);
+      })
+      .catch((error) => {
         console.log("ESTE ES EL ERROR DEL CATCH");
         console.log(error);
         console.log(error.response);
         console.log("abajo");
       });
-
-
-  }
+  };
   /* *************************************************************************************** */
   /* *****************************codigo de las cartas************************************** */
   /* *************************************************************************************** */
@@ -325,7 +351,11 @@ export const HomeUser = () => {
               component="img"
               width=""
               height="240"
-              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
+              image={
+                product.url == ""
+                  ? "https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo"
+                  : product.url
+              }
               alt=""
             />
 
@@ -372,12 +402,23 @@ export const HomeUser = () => {
               </Button>
               {/* button upload image*/}
               <IconButton
-                style={{ marginLeft: 6, border: "solid", borderColor: "#F0F8FF" }}
+                style={{
+                  marginLeft: 6,
+                  border: "solid",
+                  borderColor: "#F0F8FF",
+                }}
                 color="primary"
                 aria-label="upload picture"
                 component="label"
               >
-                <input hidden accept="image/*" type="file" onChange={(e) => {handleImageChange(e,product.id)}}/>
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={(e) => {
+                    handleImageChange(e, product.id);
+                  }}
+                />
                 <PhotoCamera />
               </IconButton>
             </CardActions>
@@ -401,7 +442,11 @@ export const HomeUser = () => {
               component="img"
               width=""
               height="240"
-              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
+              image={
+                product.url == ""
+                  ? "https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo"
+                  : product.url
+              }
               alt=""
             />
 
@@ -438,16 +483,56 @@ export const HomeUser = () => {
   }
   return (
     <>
-      <Button onClick={() => { test() }}>
-        holo
-      </Button>
+    
+
+      {store.msg == "Inicio de Sesión como Admin exitoso." ? (
+        <Typography align="center">
+          <IconButton
+            aria-label="fingerprint"
+            color="secondary"
+            style={{ marginTop: `auto` }}
+          >
+            <Avatar
+              sx={{ bgcolor: "#32CD32", width: 56, height: 56 }}
+              onClick={() => {
+                history.push("/admin");
+              }}
+            >
+              <HouseIcon style={{ fontSize: 40 }} />
+            </Avatar>
+          </IconButton>
+        </Typography>
+      ) : null}
+      {/*  {(store.msg=="Inicio de Sesión como Admin exitoso.")? 
+      <Box display="flex"
+      align="center"
+  justifyContent="center"
+  alignItems="center"
+ sx={{ borderRadius: '50%' }} style={{height:"100px",width:"100px",backgroundColor:"#32CD32", position: 'absolute', 
+ left: '50%', 
+}}
+ onClick={() => {
+  history.push("/admin")
+}}>
+  <HouseIcon /></Box>:null} */}
       <div>
-        <Chartbar Stock={sumAllStock} Earning={sumAllEarning} Sold={sumAllSoldStock} />
+        <Chartbar
+          Stock={sumAllStock}
+          Earning={sumAllEarning}
+          Sold={sumAllSoldStock}
+          Name={empresa}
+        />
       </div>
       <Typography inline variant="h4" align="right" mr={6} mt={6}>
         Artículos
-        <Button onClick={() => { setModalAdd(true) }}>
-          <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">add_circle</Icon>
+        <Button
+          onClick={() => {
+            setModalAdd(true);
+          }}
+        >
+          <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">
+            add_circle
+          </Icon>
         </Button>
       </Typography>
       {/* <div className="title_icon">
@@ -482,12 +567,17 @@ export const HomeUser = () => {
               return <CardProduct key={product.id} product={product} />;
             }
           })}
-
         </Box>
-        <Button onClick={() => { test() }}>
+        <Button
+          onClick={() => {
+            test();
+          }}
+        >
           holo
         </Button>
-        <Typography inline variant="h4" align="center" >Articulos Desactivados</Typography>
+        <Typography inline variant="h4" align="center">
+          Articulos Desactivados
+        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -507,7 +597,6 @@ export const HomeUser = () => {
               return <CardProduct2 key={product.id} product={product} />;
             }
           })}
-
         </Box>
       </div>
       {/*Cards Modals */}
@@ -591,7 +680,12 @@ export const HomeUser = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              align="center"
+            >
               ¿Esta seguro que desea DESACTIVAR este producto?
             </Typography>
             {/*Button modal deactivate */}
@@ -624,7 +718,12 @@ export const HomeUser = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              align="center"
+            >
               ¿Esta seguro que desea volver a AGREGAR este producto?
             </Typography>
             {/*Button modal delete */}
@@ -756,6 +855,9 @@ export const HomeUser = () => {
                 label="Unidades Vendidas"
                 type="number"
                 name="sold_stock2"
+                helperText={errorSold?"(Por favor revise sus ventas, ya que estas son mayores a su stock. Una vez revisadas puede usar el boton editar para arreglar el problema en el cuadro de Unidades vendidas)":null}
+                required
+                error={errorSold}
                 value={productSelected && productSelected.sold_stock2}
                 onChange={handleChange}
               />
@@ -777,6 +879,7 @@ export const HomeUser = () => {
                 variant="contained"
                 onClick={() => {
                   setModalventas(false);
+                  setErrorSold(false)
                 }}
               >
                 Cancelar

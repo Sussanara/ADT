@@ -20,3 +20,8 @@ empanada
 id 2
 f.vasquez@gmail.com
 aloha
+
+problemas pal tomako de mañana 
+listo 1 arreglar modal en formato movil de admin del botton activar desactivar
+listo 2 que password se pueda mostrar y ocultar en la vista de login inicial 
+3 arreglar problema de que en vista usuario home la carta en venta puede ser mayor que el stock

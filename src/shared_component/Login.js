@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import * as React from 'react';
 import "../styles/Login.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -16,16 +16,55 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import ModalMessage from "./modal";
+import CircularProgress from '@mui/material/CircularProgress'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+
+
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+
+
 
 const theme = createTheme();
 
 
+
 function Login() {
   let history=useHistory()
-  const { store, actions } = useContext(Context);
+  const { store, actions } = React.useContext(Context);
   function irAdmin(){
     history.push("/admin")
   }
+  const [values, setValues] = React.useState({
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const style = {
     position: "absolute",
@@ -42,7 +81,9 @@ function Login() {
   const [modalLogin, setModalLogin] = React.useState(false);
   const [modalError, setModalError] = React.useState(false);
   const handleOpenModalLogin = () => setModalLogin(true);
-  const handleCloseModalLogin = () => setModalLogin(false);
+  const handleCloseModalLogin = () => {
+    actions.changeMsg("Esperando respuesta del servidor")
+    setModalLogin(false)};
   const handleOpenError = () => setModalError(true);
   const handleCloseError = () => setModalError(false);
 
@@ -91,7 +132,9 @@ function Login() {
       .catch((error) => {
         console.log("ESTE ES EL ERROR DEL CATCH");
         console.log(error);
-        console.log(error.response);
+        console.log(error.response.data.msg);
+        actions.changeMsg(error.response.data.msg)
+        
         console.log("abajo");
       });
   };
@@ -163,6 +206,7 @@ function Login() {
                     elevation={12}
                     sx={{ maxWidth: 310, marginLeft: 3, margin: 2 }}
                   >
+                     
                     <h2 className="account">
                       ¡Bienvenido a Business Inventory!
                     </h2>
@@ -183,18 +227,43 @@ function Login() {
                         label="Email"
                         variant="outlined"
                       />
-                      <TextField
+                      {/* <TextField
                         id="outlined-basic"
                         {...register("password")}
                         type="password"
                         label="Contraseña"
                         variant="outlined"
-                      />
-                      
+                      /> */}
+                       <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            {...register("password")}
+
+            type={values.showPassword ? 'text' : 'password'}
+            value={values.password}
+            onChange={handleChange('password')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
                       <div className="iniciarsesión">
-                        <Stack direction="row" spacing={2}>
+                      <Stack direction="row" spacing={2}>
                           <Button
+
                             onClick={() => {
+                              console.log(store.msg)
                               handleOpenModalLogin();
                               handleSubmit();
                             }}
@@ -202,11 +271,12 @@ function Login() {
                             style={{
                               backgroundColor: "#0B1F47",
                               color: "white",
+
                             }}
                             variant="contained"
                             color="success"
                           >
-                            Iniciar sesión
+                            Iniciar sesion
                           </Button>
                         </Stack>
                       </div>
@@ -228,16 +298,35 @@ function Login() {
                     aria-describedby="modal-modal-description"
                   >
                     <Box sx={style}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                        align="center"
-                      >
-                        ¡Felicidades!
-                      </Typography>
+                      {(store.msg=="Inicio de sesión exitoso." || store.msg=="Inicio de Sesión como Admin exitoso.")
+                      ?<Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      align="center"
+                    >
+                      ¡Felicidades!
+                    </Typography>
+                    :!(store.msg=="Esperando respuesta del servidor")
+                    ?<Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                    align="center"
+                  >
+                    ¡Hubo un error!
+                  </Typography>
+                  :<Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  align="center"
+                >
+                  <CircularProgress  />
+                </Typography>}
+                      
                       <Typography id="modal-modal-description" sx={{ mt: 2 }} align="center">
-                        Te logeaste correctamente.
+                      {store.msg}
                       </Typography>
                     </Box>
                   </Modal>

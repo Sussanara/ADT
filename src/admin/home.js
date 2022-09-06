@@ -28,19 +28,24 @@ import {
   Tab,
   Modal,
 } from "@mui/material";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+
+
 import axios from "axios";
 import PropTypes from "prop-types";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import { Context } from "../store/appContext";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useHistory } from "react-router-dom";
 
-const cookies = new Cookies();
+
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -94,14 +99,7 @@ const style2 = {
 };
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+
 //const residuos = ['vidrio','plastico',];
 const baseUrl = process.env.REACT_APP_APPI_URL;
 const PATHS = {
@@ -114,13 +112,14 @@ const PATHS = {
 
 
 export default function Crud() {
+  let history =useHistory()
   const { store, actions } = React.useContext(Context);
   const [value, setValue] = React.useState(0);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
 
-  const token = cookies.get("token");
+
 
   const getDataUsers = (url) => {
     fetch(url, {
@@ -427,6 +426,31 @@ export default function Crud() {
   };
 
   // iterate over keys and set all keys error in false
+  var Fn = {
+    validaRut: function(rutCompleto) {
+      if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
+          return false;
+      var tmp = rutCompleto.split('-');
+      var digv = tmp[1];
+      var rut = tmp[0];
+      if (digv == 'K') digv = 'k';
+      return (Fn.dv(rut) == digv);
+    },
+    dv: function(T) {
+      var M = 0,
+          S = 1;
+      for (; T; T = Math.floor(T / 10))
+          S = (S + T % 10 * (9 - M++ % 6)) % 11;
+      return S ? S - 1 : 'k';
+    }
+  }
+  
+  const validateEmail = (email) => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+  
   const cleanErrors = () =>
     keyErrors.map((_key) => {
       formErrors[_key] = false;
@@ -491,7 +515,7 @@ export default function Crud() {
       return;
     }
     //aqui validar rut
-    if (!valorInsertar.run) {
+    if (!Fn.validaRut(valorInsertar.run)) {
       setError((prevState) => ({
         ...prevState,
         run: true,
@@ -499,7 +523,7 @@ export default function Crud() {
       return;
     }
     //aqui validar email
-    if (!valorInsertar.email.includes("@")) {
+    if (!validateEmail(valorInsertar.email) /* valorInsertar.email.includes("@") */) {
       setError((prevState) => ({
         ...prevState,
         email: true,
@@ -516,7 +540,7 @@ export default function Crud() {
     }
     // here loader for user;
     const response = addRequest(
-      "https://api-project-business-inventory.herokuapp.com/api/users"
+      "https://api-project-business-inventory.herokuapp.com/api/admin/users"
     );
     console.log("AQUII RESPONSE", response);
     if (!response) {
@@ -534,6 +558,7 @@ export default function Crud() {
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    function test (){ console.log(row.id)}
 
     return (
       <React.Fragment>
@@ -575,6 +600,20 @@ export default function Crud() {
                   variant="contained"
                   startIcon={<PersonRemoveIcon />}
                   onClick={() => selecionarCliente(row, "Desactivar")}
+                ></Button>
+              </Grid>
+              <Grid item xs={12} md={2}>
+             
+              <Button
+          
+                  style={{ backgroundColor: "#32CD32", color: "white" }}
+                  variant="contained"
+                  startIcon={<VisibilityIcon />}
+                  onClick={() => {
+                  test()
+                  actions.changeUserId(row.id)
+                  history.push("/user")
+                  }}
                 ></Button>
               </Grid>
             </Grid>
@@ -629,6 +668,8 @@ export default function Crud() {
   function Row2(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    function test (){ console.log(row.id)}
+
 
     return (
       <React.Fragment>
@@ -665,12 +706,25 @@ export default function Crud() {
               </Grid>
               <Grid item xs={12} md={2}>
                 <Button
-                  style={{ backgroundColor: "#32CD32", color: "white" }}
+                  style={{ backgroundColor: "#2a3eb1", color: "white" }}
                   variant="contained"
                   startIcon={<PersonAddAlt1Icon />}
                   onClick={() => selecionarCliente(row, "Activar")}
                 ></Button>
               </Grid>
+              <Grid item xs={12} md={2}>
+              <Button
+                  style={{ backgroundColor: "#32CD32", color: "white" }}
+                  variant="contained"
+                  startIcon={<VisibilityIcon />}
+                  onClick={() => {
+                    test()
+                    actions.changeUserId(row.id)
+                    history.push("/user")
+                  }}
+                ></Button>
+              </Grid>
+              
             </Grid>
           </TableCell>
           {/*  aca tiene que los botones de acciones editar eliminar */}
@@ -885,13 +939,13 @@ export default function Crud() {
                     justifyContent="flex-end"
                     alignItems="flex-end"
                   >
-                    <Grid item xs={8}>
+                    <Grid item xs={12}>
                       <Button
                         color="primary"
                         variant="contained"
                         onClick={() => editar()}
                       >
-                        Actualizar
+                        Editar
                       </Button>
                       &nbsp;&nbsp;
                       <Button
@@ -951,7 +1005,7 @@ export default function Crud() {
                         variant="contained"
                         onClick={() => editar()}
                       >
-                        Actualizar
+                        Editar
                       </Button>
                       &nbsp;&nbsp;
                       <Button
@@ -993,54 +1047,61 @@ export default function Crud() {
               </Grid>
             </Box>
           </Modal>
-          <Modal open={modalDesactivar}>
-            <Box sx={style2}>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item xs={4}>
-                  Estás Seguro que deseas desactivar el cliente{" "}
+          <Modal
+          open={modalDesactivar}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              align="center"
+            >
+              Estás Seguro que deseas DESACTIVAR al cliente{" "}
                   {ClienteSelecionado && ClienteSelecionado.empresa}
-                </Grid>
-                <Grid item xs={4}>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    onClick={() => desactivar()}
-                  >
-                    Si
-                  </Button>
-                  &nbsp;&nbsp;
-                  <Button
-                    style={{ backgroundColor: "#6d757d", color: "white" }}
-                    variant="contained"
-                    onClick={() => setModalDesactivar(false)}
-                  >
-                    No
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Modal>
-          <Modal open={modalActivar}>
-            <Box sx={style2}>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
+            </Typography>
+            {/*Button modal deactivate */}
+            <div className="buttonEdit">
+              <Button
+                style={{ color: "white" }}
+                color="error"
+                variant="contained"
+                onClick={() => desactivar()}
               >
-                <Grid item xs={4}>
-                  Estás Seguro que deseas activar el cliente{" "}
+                Si
+              </Button>
+              &nbsp; &nbsp;
+              <Button
+                style={{ backgroundColor: "#6d757d", color: "white" }}
+                variant="contained"
+                onClick={() => setModalDesactivar(false)}
+              >
+                No
+              </Button>
+            </div>
+          </Box>
+        </Modal>
+
+          <Modal
+          open={modalActivar}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              align="center"
+            >
+              Estás Seguro que deseas ACTIVAR al cliente{" "}
                   {ClienteSelecionado && ClienteSelecionado.empresa}
-                </Grid>
-                <Grid item xs={4}>
-                  <Button
+            </Typography>
+            {/*Button modal deactivate */}
+            <div className="buttonEdit">
+            <Button
                     style={{ backgroundColor: "#32CD32", color: "white" }}
                     variant="contained"
                     onClick={() => activar()}
@@ -1055,10 +1116,10 @@ export default function Crud() {
                   >
                     No
                   </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Modal>
+            </div>
+          </Box>
+        </Modal>
+         
           <Modal open={modalInsertar}>
             <Box sx={style}>
               <div className="form-group">

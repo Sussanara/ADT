@@ -14,7 +14,7 @@ function test() {
 }
 
 function Chartbar(props) {
-  const clientName = "Kiosco De Don Pato";
+  const clientName = props.Name;
 
   return (
     <Grid container spacing={2}>
