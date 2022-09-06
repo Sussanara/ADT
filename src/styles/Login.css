@@ -22,20 +22,15 @@
 }
 
 .iniciarsesión {
-    justify-content: center;
-    text-align: center;
-    margin-left: 80px;
-    padding-left: 80px;
-    margin-top: 15px;
-    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    float: right;
 }
 
 .registrarse {
-    justify-content: center;
-    text-align: center;
-    margin-left: 77px;
-    margin-top: 15px;
-    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    float: right;
 }
 
 .pregunta {

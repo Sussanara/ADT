@@ -101,7 +101,7 @@ function Login() {
                 </Button> */}
                       </Stack>
                     </div>
-                    <div className='mt-3 d-flex justify-content-center'><Link to="/"><p>Recover password</p></Link></div>
+                    
                   </Paper>
                 </Box>
                 <div>

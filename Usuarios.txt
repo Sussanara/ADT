@@ -1,0 +1,7 @@
+ADMIN
+id 1
+johntravolta@gmail.com
+empanada
+id 2
+f.vasquez@gmail.com
+aloha

@@ -7,7 +7,7 @@ export const navbar = () => {
     <nav className="navbar">
       <div className="container-fluid">
       <a className="navbar-brand text-light" href="#">
-      <img src={require("../asset/logo4.png")} alt="" width="55" height="45" className="d-inline-block align-text-top mx-1"/>
+      <img src={require("../asset/logo4.png")} alt="" width="60" height="50" className="d-inline-block align-text-top mx-1"/>
       Business Inventory
     </a>  
         <form className="d-flex" role="search">
