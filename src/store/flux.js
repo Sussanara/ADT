@@ -5,8 +5,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       userName: null,
       is_active: null,
       userId: null,
-      msg:null,
-      token:null
+      msg:"Esperando respuesta del servidor",
+      token:null,
+      is_admin:null,
+      modalLogin:false
+
 
 
     },
@@ -61,6 +64,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       changeIsActive:(data)=>{
         setStore({ is_active: data });
       },
+      changeIsAdmin:(data)=>{
+        setStore({ is_admin: data });
+      },
       changeUserId:(data)=>{
         setStore({ userId: data });
       },    
@@ -69,7 +75,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       },      
       changeToken:(data)=>{
         setStore({ token: data });
-      },    
+      }, 
+      handleOpenModalLogin:(data)=>{
+        setStore({ modalLogin: data });
+
+      },
+      handleCloseModalLogin:(data)=>{
+        setStore({ modalLogin: data });
+
+      }     
     },
   };
 };

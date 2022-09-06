@@ -147,7 +147,7 @@ function Register() {
                             variant="contained"
                             color="success"
                           >
-                            Iniciar sesión
+                            Registrarse
                           </Button>
                         </Stack>
                       </div>
