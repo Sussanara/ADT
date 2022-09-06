@@ -413,9 +413,9 @@ export const HomeUser = () => {
       <React.Fragment>
         <Paper
           elevation={8}
-          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
+          sx={{ maxWidth: 280, maxHeight: 380, marginLeft: 2, margin: 2 }}
         >
-          <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+          <Card sx={{ maxWidth: 280, maxHeight: 460, marginTop: -10 }}>
             <CardMedia
               className="img"
               component="img"
