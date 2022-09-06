@@ -14,7 +14,7 @@ export const Navbar = () => {
     window.location.href="http://localhost:3000/"
   }
   React.useEffect(()=>{
-    securityLogin(store.msg)
+/*     securityLogin(store.msg) */
   },[])   
   return (
     <nav className="navbar">

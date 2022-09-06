@@ -58,7 +58,7 @@ function Chartbar(props) {
                 ] */,
               },
               {
-                name: "Mermas",
+                name: "Unidades sin vender",
                 color: "#F44336",
                 data: [props.Stock-props.Sold] /* [
                   440, 505, 414, 571, 227, 413, 201, 352, 652, 320, 257, 160,
@@ -66,7 +66,7 @@ function Chartbar(props) {
                 ] */,
               },
               {
-                name: "Ganancias x 1000",
+                name: "Ganancias en miles",
                 color: "#32CD32",
                 data: [props.Earning/1000]/* [23, 42, 35, 27, 43, 22, 17, 31, 42, 22, 12, 16] */,
               },
