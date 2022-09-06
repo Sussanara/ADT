@@ -90,16 +90,15 @@ function Somos() {
           />
 
         </Grid> */}
-         <Grid container style={{ backgroundColor: "#1a1969", width: "100%" }}>
-                    <Grid xs={12} md={3}>
-                        <img src={Icono1} alt="left" style={{ height: "200px", marginLeft:"50px" }} />
+         <Grid container style={{ backgroundColor: "#1a1969", width: "100%", height: "80px" }}>
+                    <Grid xs={3} md={3}>
+                        <img src={Icono1} alt="left" style={{ height: "80px", width: "80px", marginLeft: "25px" }} />
                     </Grid>
-                    <Grid xs={12} md={6}>
-                    <h3 className="text-white text-center mt-5"><b>Control de inventarios</b></h3>
-                    <h3 className="text-white text-center m-0">Ajustes de inventario en tiempo real</h3>
+                    <Grid xs={6} md={6}>
+                    <h4 className="text-white text-center mt-2"><b>Control de inventario en tiempo real</b></h4>
                     </Grid>
-                    <Grid xs={12} md={3}>
-                    <img src={Icono2} align="right" alt="" style={{ height: "200px", width: "220px", marginRight:"30px" }} />
+                    <Grid xs={3} md={3}>
+                    <img src={Icono2} align="right" alt="" style={{ height: "80px", width: "100px", marginRight: "25px"}} />
                     </Grid>
                 </Grid>
             </Grid>
