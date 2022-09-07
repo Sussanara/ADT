@@ -1,0 +1,14 @@
+.container {
+    align-items: center;
+    text-align: center;
+    }
+    .Button {
+        margin: auto;
+    
+    }
+    .row {
+        margin-left: 25%;
+    }
+    .card {
+        display: inline-block;
+    }

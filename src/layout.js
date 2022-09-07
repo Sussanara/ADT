@@ -11,6 +11,7 @@ import HomeUser from "./user/home_user";
 import HomeUserTrial from "./freetrial/home_user";
 import NavbarLogin from "./shared_component/navbarLogin";
 import Are from "./freetrial/are"
+import Contacto from "./freetrial/contacto";
 
 const Layout = () => {
 	
@@ -28,6 +29,10 @@ const Layout = () => {
           <Route exact path="/are">
             <NavbarLogin />
             <Are />
+          </Route>
+          <Route exact path="/contact">
+            <NavbarLogin />
+            <Contacto />
           </Route>
           <Route exact path="/register">
 

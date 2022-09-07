@@ -285,14 +285,23 @@ function Login() {
                         </Stack>
                         
                         
-                      <Typography
+                        <Typography
                       id="modal-modal-title"
 
                       component="h2"
                       align="left"
                       style={{textDecoration:"none"}}
                       my={1}
-                    ><Link to='/are'>Mas sobre nosotros</Link></Typography>
+                    ><Link to='/are'>Mas sobre nosotros</Link></Typography><Typography
+                    id="modal-modal-title"
+
+                    component="h2"
+                    align="left"
+                    style={{textDecoration:"none"}}
+                    my={1}
+                    mx={4}
+                  ><Link to='/contact'>{`     Contactenos`}</Link></Typography>
+                    
                       </div>
                       
                     </Box>
