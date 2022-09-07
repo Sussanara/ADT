@@ -2,14 +2,16 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "./styles/navbar.css";
 import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
 
-
-export const Navbar = () => {
+export const NavbarLogin = () => {
   const { store, actions } = useContext(Context);
   const usuario = "admin";
+  let history = useHistory()
   const securityLogin =(msg)=>{
     if(msg=="Inicio de sesión exitoso." || msg=="Inicio de Sesión como Admin exitoso."){console.log("te logeaste bien tienes permitido seguir")}
     else{window.location.href="http://localhost:3000/"  }
@@ -19,7 +21,11 @@ export const Navbar = () => {
   }
   React.useEffect(()=>{
     /* securityLogin(store.msg) */
-  },[])   
+  },[])
+
+  const handleClickTrial = () => {
+    history.push("/trial")
+  }
   return (
 
     <nav className="navbar navbar-expand-lg">
@@ -29,7 +35,7 @@ export const Navbar = () => {
     
       <img src={require("../asset/logo4.png")} alt="" width="55" height="45" className="d-inline-block align-text-top mx-1"/>
       Business Inventory
-    </Link>  
+    </Link>   
     
     <div
     
@@ -37,7 +43,6 @@ export const Navbar = () => {
       id="navbarSupportedContent"
       style={{}}
     >
-      <Typography inline variant="h6" align="right" style={{color:"white",display:"block", marginLeft:"auto" }}>{store.userName?store.userName:store.email?store.email:"Nombre de usuario"}  </Typography>
       
       {/* <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
@@ -97,13 +102,14 @@ export const Navbar = () => {
         </button>
       </form> */}
     </div>
-    <i className="off fa-solid fa-power-off" style={{display:"block", marginLeft:10}} onClick={goHome} 
+    <Button variant="contained" style={{backgroundColor: "#FFDF2B", color: "black" , fontWeight: "bold"}}
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
-      aria-label="Toggle navigation"/>
+      aria-label="Toggle navigation"
+      onClick={() => handleClickTrial()}>DEMO</Button>
   </div>
 </nav>
 
@@ -113,7 +119,4 @@ export const Navbar = () => {
   );
 };
 
-export default Navbar;
-
-
-
+export default NavbarLogin;

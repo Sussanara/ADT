@@ -9,6 +9,8 @@ import injectContext from "./store/appContext";
 import Navbar from "./shared_component/navbar";
 import HomeUser from "./user/home_user";
 import HomeUserTrial from "./freetrial/home_user";
+import NavbarLogin from "./shared_component/navbarLogin";
+import Are from "./freetrial/are"
 
 const Layout = () => {
 	
@@ -20,7 +22,12 @@ const Layout = () => {
       <BrowserRouter basename={basename}>
         <Switch>
           <Route exact path="/">
+            <NavbarLogin />
             <Login />
+          </Route>
+          <Route exact path="/are">
+            <NavbarLogin />
+            <Are />
           </Route>
           <Route exact path="/register">
 

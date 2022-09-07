@@ -735,7 +735,7 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  editProductActive();git
+                  editProductActive();
                 }}
               >
                 Si

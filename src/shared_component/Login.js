@@ -25,7 +25,7 @@ import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import FilledInput from '@mui/material/FilledInput';
-
+import { Link } from "react-router-dom";
 
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -258,8 +258,11 @@ function Login() {
             label="Password"
           />
         </FormControl>
+        
                       <div className="iniciarsesión">
+                      
                       <Stack direction="row" spacing={2}>
+                      
                           <Button
 
                             onClick={() => {
@@ -278,8 +281,20 @@ function Login() {
                           >
                             Iniciar sesión
                           </Button>
+                          
                         </Stack>
+                        
+                        
+                      <Typography
+                      id="modal-modal-title"
+
+                      component="h2"
+                      align="left"
+                      style={{textDecoration:"none"}}
+                      my={1}
+                    ><Link to='/are'>Mas sobre nosotros</Link></Typography>
                       </div>
+                      
                     </Box>
                     <div className="iniciarsesión">
                       <Stack direction="row" spacing={2}>

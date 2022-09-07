@@ -536,18 +536,19 @@ export const HomeUserTrial = () => {
   }
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           test();
         }}
       >
         holo
-      </Button>
+      </Button> */}
       <div>
         <Chartbar
           Stock={sumAllStock}
           Earning={sumAllEarning}
           Sold={sumAllSoldStock}
+          Name={"Su empresa"}
         />
       </div>
       <Typography inline variant="h4" align="right" mr={6} mt={6}>
