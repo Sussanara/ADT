@@ -18,7 +18,7 @@ function Somos() {
             <Grid container>
                 <Grid xs={12} md={12}>
                     <div className="row d-flex m-5">
-                    <iframe width="560" height="500" src="https://www.youtube.com/embed/EREuVZjd9YE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="560" height="700" src="https://www.youtube.com/embed/HaMxECQnDW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"></iframe>
                     </div>
                 </Grid>
 

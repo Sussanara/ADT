@@ -16,9 +16,9 @@ function Contacto() {
     return (
         <>
             <h2 align="center" style={{ marginTop: "15px" }}>Nuestros Planes</h2>
-            <div className="row g-2 m-4 ">
+            <div className="row g-2 m-4 d-flex justify-content-around">
                 <div className="col-3 mx-5">
-                    <div className="card border-primary mb-3" style={{ maxWidth: "20rem", height: "390px" }}>
+                    <div className="card border-primary mb-3 ms-5" style={{ maxWidth: "20rem", height: "390px" }}>
                         <div className="card-header" align="center"><h5>Plan Mensual</h5></div>
                         <div className="card-body text-primary">
                             <p className="card-text">
@@ -37,7 +37,7 @@ function Contacto() {
                     </div>
                 </div>
                 <div className="col-3 mx-5">
-                    <div className="card border-secondary mb-3" style={{ maxWidth: "20rem", height: "390px" }}>
+                    <div className="card border-secondary mb-3 ms-5" style={{ maxWidth: "20rem", height: "390px" }}>
                         <div className="card-header" align="center"><h5>Plan 6 meses</h5></div>
                         <div className="card-body text-secondary">
                             <p className="card-text">
@@ -56,7 +56,7 @@ function Contacto() {
                     </div>
                 </div>
                 <div className="col-3 mx-5">
-                    <div className="card border-success mb-3" style={{ maxWidth: "20rem", height: "390px" }}>
+                    <div className="card border-success mb-3 ms-5" style={{ maxWidth: "20rem", height: "390px" }}>
                         <div className="card-header" align="center"><h5>Plan Anual</h5></div>
                         <div className="card-body text-success">
                             <p className="card-text">

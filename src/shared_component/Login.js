@@ -292,7 +292,7 @@ function Login() {
                       align="left"
                       style={{textDecoration:"none"}}
                       my={1}
-                    ><Link to='/are'>Mas sobre nosotros</Link></Typography><Typography
+                    ><Link to='/are'>Acerca de Nosotros</Link></Typography><Typography
                     id="modal-modal-title"
 
                     component="h2"
@@ -300,7 +300,7 @@ function Login() {
                     style={{textDecoration:"none"}}
                     my={1}
                     mx={4}
-                  ><Link to='/contact'>{`     Contactenos`}</Link></Typography>
+                  ><Link to='/contact'>{`Contáctanos`}</Link></Typography>
                     
                       </div>
                       
