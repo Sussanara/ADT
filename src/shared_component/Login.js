@@ -276,7 +276,7 @@ function Login() {
                             variant="contained"
                             color="success"
                           >
-                            Iniciar sesion
+                            Iniciar sesión
                           </Button>
                         </Stack>
                       </div>
