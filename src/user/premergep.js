@@ -1,7 +1,7 @@
 import * as React from "react";
-import "../user/styles/home_user.css";
+import "./styles/home_user.css";
 import axios from "axios";
-import Chartbar from "../user/chartbar";
+import Chartbar from "./chartbar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,11 +16,10 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Context } from "../store/appContext";
 import { IconButton } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import imagenPrueba from "../asset/pruebagratuita.png";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
@@ -37,90 +36,20 @@ const style = {
   p: 4,
 };
 
-export const HomeUserTrial = () => {
+export const HomeUser = () => {
   const { store, actions } = React.useContext(Context);
   let userId = store.userId;
   const dataFalsa = [
-    {
-      id: 1,
-      name: "mayo",
-      stock: 123,
-      sold_stock: 33,
-      price: 2500,
-      is_active: true,
-    },
-    {
-      id: 2,
-      name: "coca-cola",
-      stock: 77,
-      sold_stock: 25,
-      price: 2000,
-      is_active: true,
-    },
-    {
-      id: 3,
-      name: "lays",
-      stock: 322,
-      sold_stock: 200,
-      price: 500,
-      is_active: true,
-    },
-    {
-      id: 4,
-      name: "donuts",
-      stock: 44,
-      sold_stock: 12,
-      price: 900,
-      is_active: true,
-    },
-    {
-      id: 5,
-      name: "orange",
-      stock: 65,
-      sold_stock: 33,
-      price: 2000,
-      is_active: true,
-    },
-    {
-      id: 6,
-      name: "bimbo",
-      stock: 22,
-      sold_stock: 11,
-      price: 4500,
-      is_active: true,
-    },
-    {
-      id: 7,
-      name: "sprite",
-      stock: 83,
-      sold_stock: 32,
-      price: 2000,
-      is_active: true,
-    },
-    {
-      id: 8,
-      name: "chettos",
-      stock: 287,
-      sold_stock: 22,
-      price: 500,
-      is_active: true,
-    },
-    {
-      id: 9,
-      name: "chocolitos",
-      stock: 50,
-      sold_stock: 12,
-      price: 600,
-      is_active: true,
-    },
-    {
-      id: 10,
-      name: "lapiz",
-      stock: 300,
-      sold_stock: 147,
-      price: 100,
-      is_active: true,
-    },
+    { id: 1, name: "mayo", stock: "123", sold_stock: "33", price: "2500" },
+    { id: 2, name: "coca-cola", stock: "77", sold_stock: "25", price: "2000" },
+    { id: 3, name: "lays", stock: "322", sold_stock: "200", price: "500" },
+    { id: 4, name: "donuts", stock: "44", sold_stock: "12", price: "900" },
+    { id: 5, name: "orange", stock: "65", sold_stock: "33", price: "2000" },
+    { id: 6, name: "bimbo", stock: "22", sold_stock: "11", price: "4500" },
+    { id: 7, name: "sprite", stock: "83", sold_stock: "32", price: "2000" },
+    { id: 8, name: "chettos", stock: "287", sold_stock: "22", price: "500" },
+    { id: 9, name: "chocolitos", stock: "50", sold_stock: "12", price: "600" },
+    { id: 10, name: "lapiz", stock: "300", sold_stock: "147", price: "100" },
   ];
   const [data, setData] = React.useState(dataFalsa);
   const [modalEdit, setModalEdit] = React.useState(false);
@@ -128,18 +57,17 @@ export const HomeUserTrial = () => {
   const [modalActivar, setModalActivar] = React.useState(false);
   const [modalVentas, setModalventas] = React.useState(false);
   const [modalAddArticles, setModalAdd] = React.useState(false);
-  const [modalImage, setModalImage] = React.useState(false);
   const [productSelected, setProductSelected] = React.useState({
     name: "",
     stock: 0,
     sold_stock: 0,
     price: 0,
     sold_stock2: 0,
-    is_active: true,
+    is_active: true
   });
   React.useEffect(() => {
-    /*  securityLogin(token) 
-    getDataUser(userId) */
+    /* securityLogin(token) */
+    getDataUser(userId);
   }, []);
   const restedProducSeleted = () => {
     setProductSelected({
@@ -148,7 +76,7 @@ export const HomeUserTrial = () => {
       sold_stock: 0,
       price: 0,
       sold_stock2: 0,
-      is_active: true,
+      is_active: true
     });
   };
   const selectProduct = (product, caso) => {
@@ -156,10 +84,10 @@ export const HomeUserTrial = () => {
     caso === "Editar"
       ? setModalEdit(true)
       : caso === "Ventas"
-      ? setModalventas(true)
-      : caso === "Desactivar"
-      ? setModalDesactivar(true)
-      : setModalActivar(true);
+        ? setModalventas(true)
+        : caso === "Desactivar"
+          ? setModalDesactivar(true)
+          : setModalActivar(true)
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -184,7 +112,7 @@ export const HomeUserTrial = () => {
         product.sold_stock = productSelected.sold_stock;
         product.stock = productSelected.stock;
         product.price = productSelected.price;
-        /* editDataProduct(productSelected.id, userId) */
+        editDataProduct(productSelected.id, userId);
       }
     });
 
@@ -198,11 +126,10 @@ export const HomeUserTrial = () => {
       if (product.id === productSelected.id) {
         product.name = productSelected.name;
         product.stock = productSelected.stock;
-        product.sold_stock =
-          productSelected.sold_stock + productSelected.sold_stock2;
+        product.sold_stock = productSelected.sold_stock + productSelected.sold_stock2;
         productSelected.sold_stock = product.sold_stock;
         product.price = productSelected.price;
-        /* editDataProduct(productSelected.id, userId) */
+        editDataProduct(productSelected.id, userId);
       }
     });
     setModalventas(false);
@@ -216,7 +143,7 @@ export const HomeUserTrial = () => {
         product.is_active = false;
         productSelected.is_active = false;
 
-        /* editDataProduct(productSelected.id, userId) */
+        editDataProduct(productSelected.id, userId);
       }
     });
     setModalventas(false);
@@ -230,7 +157,7 @@ export const HomeUserTrial = () => {
       if (product.id === productSelected.id) {
         product.is_active = true;
         productSelected.is_active = true;
-        /* editDataProduct(productSelected.id, userId) */
+        editDataProduct(productSelected.id, userId);
       }
     });
     setModalventas(false);
@@ -241,36 +168,24 @@ export const HomeUserTrial = () => {
   const insertNewProduct = () => {
     var dataNueva = data;
     var valorInsertar = productSelected;
-    dataNueva.push({
-      id: data.length + 1,
-      name: productSelected.name,
-      price: productSelected.price,
-      sold_stock: productSelected.sold_stock,
-      stock: productSelected.stock,
-      is_active: true,
-    });
     console.log("en insertaBoton ", valorInsertar);
 
     // here loader for user;
-    /*  const response = addRequest(userId) */ /*   console.log("AQUII RESPONSE", response); */
+    const response = addRequest(userId);
+    console.log("AQUII RESPONSE", response);
 
     //setData
+    console.log("Cliente creado correctamente");
     setData(dataNueva);
     setModalAdd(false);
     return;
   };
-  const sumAllStock = data
-    .map((item) => (item.is_active ? item.stock : 0))
-    .reduce((prev, curr) => prev + curr, 0);
-  const sumAllSoldStock = data
-    .map((item) => (item.is_active ? item.sold_stock : 0))
-    .reduce((prev, curr) => prev + curr, 0);
-  const sumAllEarning = data
-    .map((item) => (item.is_active ? item.sold_stock * item.price : 0))
-    .reduce((prev, curr) => prev + curr, 0);
+  const sumAllStock = data.map(item => item.is_active ? item.stock : 0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllSoldStock = data.map(item => item.is_active ? item.sold_stock : 0).reduce((prev, curr) => prev + curr, 0);
+  const sumAllEarning = data.map(item => item.is_active ? item.sold_stock * item.price : 0).reduce((prev, curr) => prev + curr, 0);
 
   function test() {
-    console.log(sumAllStock);
+    console.log(data);
     console.log(sumAllSoldStock);
     console.log(sumAllEarning);
   }
@@ -278,7 +193,7 @@ export const HomeUserTrial = () => {
   /* ------------------------funciones de peticion de data--------------------------- */
   /* ******************************************************************************** */
 
-  /* const getDataUser = (userId) => {
+  const getDataUser = (userId) => {
     fetch(
       `https://api-project-business-inventory.herokuapp.com/api/users/${userId}`,
       {
@@ -379,14 +294,22 @@ export const HomeUserTrial = () => {
       console.log(pair[0]+" , " + pair[1])
     }
     fetch("https://api-project-business-inventory.herokuapp.com/api/users/images",{
-      method : "PUT",
+      method : "POST",
       body: formData ,
     })
     .then((response) => {return response.json()})
-    .then((data) => {console.log(data)})
-    .then(getDataUser(userId))
+    .then((data) => {
+      console.log(data)
+      getDataUser(userId)})
+    .catch((error) => {
+        console.log("ESTE ES EL ERROR DEL CATCH");
+        console.log(error);
+        console.log(error.response);
+        console.log("abajo");
+      });
 
-  } */
+
+  }
   /* *************************************************************************************** */
   /* *****************************codigo de las cartas************************************** */
   /* *************************************************************************************** */
@@ -395,34 +318,37 @@ export const HomeUserTrial = () => {
 
     return (
       <React.Fragment>
-        <Paper elevation={0}>
-          <Card sx={{ maxWidth: 280, maxHeight: 550 }} elevation={8}>
+        <Paper
+          elevation={8}
+          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2,}}
+        >
+          <Card sx={{ maxWidth: 280, maxHeight: 550,}}>
             {/* alert message, low stock*/}
 
-            <CardMedia
-              className="img"
-              component="img"
-              width=""
-              height="240"
-              image={imagenPrueba}
-              alt=""
-            />
-            {product.sold_stock == product.stock ? (
-              <Stack sx={{ width: "100%" }} spacing={2}>
-                <Alert severity="error" aria-label="close">
-                  <AlertTitle>Alerta!</AlertTitle>
-                  Revisar el stock disponible <strong>Stock en cero</strong>
-                </Alert>
-              </Stack>
-            ) : product.stock - product.sold_stock < product.stock * 0.2 ? (
-              <Stack sx={{ width: "100%" }} spacing={2}>
+            {(product.sold_stock== product.stock)?
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                  <Alert severity="error" aria-label="close">
+                    <AlertTitle>Alerta!</AlertTitle>
+                    Revisar el stock disponible{" "}
+                    <strong>Stock en cero</strong>
+                  </Alert>
+                </Stack>:(product.stock-product.sold_stock< product.stock*0.2)?
+                <Stack sx={{ width: "100%" }} spacing={2}>
                 <Alert severity="warning" aria-label="close">
                   <AlertTitle>Alerta!</AlertTitle>
                   Revisar el stock disponible{" "}
                   <strong>Baja cantidad de stock</strong>
                 </Alert>
-              </Stack>
-            ) : null}
+              </Stack>:null }
+            <CardMedia
+              className="img"
+              component="img"
+              width=""
+              height="240"
+              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
+              alt=""
+            />
+
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {product.name}
@@ -466,16 +392,12 @@ export const HomeUserTrial = () => {
               </Button>
               {/* button upload image*/}
               <IconButton
-                style={{
-                  marginLeft: 6,
-                  border: "solid",
-                  borderColor: "#F0F8FF",
-                }}
+                style={{ marginLeft: 6, border: "solid", borderColor: "#F0F8FF" }}
                 color="primary"
                 aria-label="upload picture"
                 component="label"
-                onClick={() => setModalImage(true)}
               >
+                <input hidden accept="image/*" type="file" onChange={(e) => {handleImageChange(e,product.id)}}/>
                 <PhotoCamera />
               </IconButton>
             </CardActions>
@@ -499,7 +421,7 @@ export const HomeUserTrial = () => {
               component="img"
               width=""
               height="240"
-              image={imagenPrueba}
+              image={(product.url=="")?"https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo":product.url}
               alt=""
             />
 
@@ -536,22 +458,20 @@ export const HomeUserTrial = () => {
   }
   return (
     <>
-      <Button
-        onClick={() => {
-          test();
-        }}
-      >
+      <Button onClick={() => { test() }}>
         holo
       </Button>
       <div>
-        <Chartbar
-          Stock={sumAllStock}
-          Earning={sumAllEarning}
-          Sold={sumAllSoldStock}
-        />
+        <Chartbar Stock={sumAllStock} Earning={sumAllEarning} Sold={sumAllSoldStock} />
       </div>
       <Typography inline variant="h4" align="right" mr={6} mt={6}>
         Artículos
+        <Button onClick={() => { setModalAdd(true) }}>
+          <Icon sx={{ color: "#32CD32", fontSize: 50 }} color="primary">add_circle</Icon>
+        </Button>
+      </Typography>
+      {/* <div className="title_icon">
+        <h3 className="subtitleHomeUser">Artículos</h3>
         <Button
           onClick={() => {
             setModalAdd(true);
@@ -561,8 +481,7 @@ export const HomeUserTrial = () => {
             add_circle
           </Icon>
         </Button>
-      </Typography>
-
+      </div> */}
       <div>
         <Box
           sx={{
@@ -572,9 +491,9 @@ export const HomeUserTrial = () => {
             "& > :not(style)": {
               m: 3,
               mx: 2,
-              my: 1,
+              my: 5,
               width: 270,
-              height: 550,
+              height: 440,
             },
           }}
         >
@@ -583,13 +502,12 @@ export const HomeUserTrial = () => {
               return <CardProduct key={product.id} product={product} />;
             }
           })}
+
         </Box>
-        {/*         <Button onClick={() => { test() }}>
+        {/* <Button onClick={() => { test() }}> 
           holo
-        </Button> */}
-        <Typography inline variant="h4" align="center" mb={10}>
-          Articulos Desactivados
-        </Typography>
+        </Button>*/}
+        <Typography inline variant="h4" align="center" my={10} >Articulos Desactivados</Typography>
         <Box
           sx={{
             display: "flex",
@@ -598,7 +516,7 @@ export const HomeUserTrial = () => {
             "& > :not(style)": {
               m: 3,
               mx: 2,
-              my: 6,
+              my: 5,
               width: 270,
               height: 440,
             },
@@ -609,6 +527,7 @@ export const HomeUserTrial = () => {
               return <CardProduct2 key={product.id} product={product} />;
             }
           })}
+
         </Box>
       </div>
       {/*Cards Modals */}
@@ -692,12 +611,7 @@ export const HomeUserTrial = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              align="center"
-            >
+            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
               ¿Esta seguro que desea DESACTIVAR este producto?
             </Typography>
             {/*Button modal deactivate */}
@@ -725,45 +639,12 @@ export const HomeUserTrial = () => {
           </Box>
         </Modal>
         <Modal
-          open={modalImage}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              align="center"
-            >
-              Esta función no está disponible en la prueba gratuita.
-            </Typography>
-            {/*Button modal deactivate */}
-            <div className="buttonEdit">
-              <Button
-                style={{ backgroundColor: "#32CD32", color: "white" }}
-                variant="contained"
-                onClick={() => {
-                  setModalImage(false);
-                }}
-              >
-                OK
-              </Button>
-            </div>
-          </Box>
-        </Modal>
-        <Modal
           open={modalActivar}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              align="center"
-            >
+            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
               ¿Esta seguro que desea volver a AGREGAR este producto?
             </Typography>
             {/*Button modal delete */}
@@ -928,4 +809,4 @@ export const HomeUserTrial = () => {
   );
 };
 
-export default HomeUserTrial;
+export default HomeUser;

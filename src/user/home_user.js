@@ -25,6 +25,9 @@ import { useHistory } from "react-router-dom";
 import { BorderAllRounded } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import ColocaTuImagen from "../asset/añadetuimagen.png"
 
 const style = {
   position: "absolute",
@@ -342,24 +345,40 @@ export const HomeUser = () => {
     return (
       <React.Fragment>
         <Paper
-          elevation={8}
-          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
+          elevation={0}
+       
+         
         >
-          <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+          <Card sx={{ maxWidth: 280, maxHeight: 550,}} 
+          elevation={8}>
+            {/* alert message, low stock*/}
+
+            
             <CardMedia
               className="img"
               component="img"
               width=""
               height="240"
-              image={
-                product.url == ""
-                  ? "https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo"
-                  : product.url
-              }
+              image={(product.url=="")?ColocaTuImagen:product.url}
               alt=""
             />
-
+{(product.sold_stock== product.stock)?
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                  <Alert severity="error" aria-label="close">
+                    <AlertTitle>Alerta!</AlertTitle>
+                    Revisar el stock disponible{" "}
+                    <strong>Stock en cero</strong>
+                  </Alert>
+                </Stack>:(product.stock-product.sold_stock< product.stock*0.2)?
+                <Stack sx={{ width: "100%" }} spacing={2}>
+                <Alert severity="warning" aria-label="close">
+                  <AlertTitle>Alerta!</AlertTitle>
+                  Revisar el stock disponible{" "}
+                  <strong>Baja cantidad de stock</strong>
+                </Alert>
+              </Stack>:null }
             <CardContent>
+              
               <Typography gutterBottom variant="h5" component="div">
                 {product.name}
               </Typography>
@@ -402,23 +421,12 @@ export const HomeUser = () => {
               </Button>
               {/* button upload image*/}
               <IconButton
-                style={{
-                  marginLeft: 6,
-                  border: "solid",
-                  borderColor: "#F0F8FF",
-                }}
+                style={{ marginLeft: 6, border: "solid", borderColor: "#F0F8FF" }}
                 color="primary"
                 aria-label="upload picture"
                 component="label"
               >
-                <input
-                  hidden
-                  accept="image/*"
-                  type="file"
-                  onChange={(e) => {
-                    handleImageChange(e, product.id);
-                  }}
-                />
+                <input hidden accept="image/*" type="file" onChange={(e) => {handleImageChange(e,product.id)}}/>
                 <PhotoCamera />
               </IconButton>
             </CardActions>
@@ -434,19 +442,15 @@ export const HomeUser = () => {
       <React.Fragment>
         <Paper
           elevation={8}
-          sx={{ maxWidth: 280, maxHeight: 470, marginLeft: 2, margin: 2 }}
+          sx={{ maxWidth: 280, maxHeight: 380, marginLeft: 2, margin: 2 }}
         >
-          <Card sx={{ maxWidth: 280, maxHeight: 460 }}>
+          <Card sx={{ maxWidth: 280, maxHeight: 460, marginTop: -10 }}>
             <CardMedia
               className="img"
               component="img"
               width=""
               height="240"
-              image={
-                product.url == ""
-                  ? "https://i.picsum.photos/id/901/200/300.jpg?hmac=hkPEpuBNrCAj1u5K7KgiXGa6ToLCG2iG5C99wLLEdKo"
-                  : product.url
-              }
+              image={(product.url=="")?ColocaTuImagen:product.url}
               alt=""
             />
 
@@ -556,9 +560,9 @@ export const HomeUser = () => {
             "& > :not(style)": {
               m: 3,
               mx: 2,
-              my: 5,
+              my: 1,
               width: 270,
-              height: 440,
+              height: 550,
             },
           }}
         >
@@ -568,16 +572,14 @@ export const HomeUser = () => {
             }
           })}
         </Box>
-        <Button
+{/*         <Button
           onClick={() => {
             test();
           }}
         >
           holo
-        </Button>
-        <Typography inline variant="h4" align="center">
-          Articulos Desactivados
-        </Typography>
+        </Button> */}
+        <Typography inline variant="h4" align="center" mb={10}>Articulos Desactivados</Typography>
         <Box
           sx={{
             display: "flex",
@@ -586,7 +588,7 @@ export const HomeUser = () => {
             "& > :not(style)": {
               m: 3,
               mx: 2,
-              my: 5,
+              my: 6,
               width: 270,
               height: 440,
             },
@@ -597,6 +599,7 @@ export const HomeUser = () => {
               return <CardProduct2 key={product.id} product={product} />;
             }
           })}
+
         </Box>
       </div>
       {/*Cards Modals */}
