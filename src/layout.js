@@ -9,6 +9,8 @@ import injectContext from "./store/appContext";
 import Navbar from "./shared_component/navbar";
 import HomeUser from "./user/home_user";
 import HomeUserTrial from "./freetrial/home_user";
+import NavbarTrial from "./freetrial/navbarTrial";
+import NavbarLogin from "./shared_component/navbarLogin";
 
 const Layout = () => {
 	
@@ -20,6 +22,7 @@ const Layout = () => {
       <BrowserRouter basename={basename}>
         <Switch>
           <Route exact path="/">
+            <NavbarLogin />
             <Login />
           </Route>
           <Route exact path="/register">
@@ -35,7 +38,7 @@ const Layout = () => {
             <HomeUser />
           </Route>
           <Route exact path="/trial">
-            <Navbar />
+            <NavbarTrial />
             <HomeUserTrial />
           </Route>
           <Route>
