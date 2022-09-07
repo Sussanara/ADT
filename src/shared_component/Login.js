@@ -290,14 +290,14 @@ function Login() {
 
                       component="h2"
                       align="left"
-                      style={{textDecoration:"none"}}
+                      style={{textDecoration:"inherit"}}
                       my={1}
                     ><Link to='/are'>Acerca de Nosotros</Link></Typography><Typography
                     id="modal-modal-title"
 
                     component="h2"
                     align="left"
-                    style={{textDecoration:"none"}}
+                    style={{textDecoration:"inherit"}}
                     my={1}
                     mx={4}
                   ><Link to='/contact'>{`Contáctanos`}</Link></Typography>
