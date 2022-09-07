@@ -389,7 +389,7 @@ export const HomeUser = () => {
                 Vendidas: {product.sold_stock}
               </Typography>
               <Typography variant="body2" color="text.primary">
-                valor: ${product.price}
+                Valor: ${product.price}
               </Typography>
               <Typography variant="body2" color="text.primary">
                 Ganancia: ${product.price * product.sold_stock}
@@ -465,7 +465,7 @@ export const HomeUser = () => {
                 Vendidas: {product.sold_stock}
               </Typography>
               <Typography variant="body2" color="text.primary">
-                valor: ${product.price}
+                Valor: ${product.price}
               </Typography>
               <Typography variant="body2" color="text.primary">
                 Ganancia: ${product.price * product.sold_stock}
@@ -619,7 +619,7 @@ export const HomeUser = () => {
                 variant="h6"
                 component="h2"
               >
-                Agregar Productos
+                Agregar productos
               </Typography>
               {/*Form modal Add Articles*/}
               <TextField
@@ -689,7 +689,7 @@ export const HomeUser = () => {
               component="h2"
               align="center"
             >
-              ¿Esta seguro que desea DESACTIVAR este producto?
+              ¿Está seguro que desea DESACTIVAR este producto?
             </Typography>
             {/*Button modal deactivate */}
             <div className="buttonEdit">
@@ -727,7 +727,7 @@ export const HomeUser = () => {
               component="h2"
               align="center"
             >
-              ¿Esta seguro que desea volver a AGREGAR este producto?
+              ¿Está seguro que desea volver a AGREGAR este producto?
             </Typography>
             {/*Button modal delete */}
             <div className="buttonEdit">
@@ -735,7 +735,7 @@ export const HomeUser = () => {
                 style={{ backgroundColor: "#32CD32", color: "white" }}
                 variant="contained"
                 onClick={() => {
-                  editProductActive();
+                  editProductActive();git
                 }}
               >
                 Si
