@@ -33,7 +33,7 @@ function Somos() {
                 <Grid xs={12} md={7}>
                     <div className=" m-5">
                         <h4>Bienvenido</h4>
-                        <hr width="20%"/>
+                        <hr width="20%" />
                         <h1>
                             <span className="text-dark">Quiénes Somos</span>
                         </h1>
@@ -70,7 +70,7 @@ function Somos() {
                         <h1>
                             <p className="text-dark" align="right">¿Qué nos diferencia?</p>
                         </h1>
-                        <h4 align= "right">
+                        <h4 align="right">
                             Desarrollamos una aplicación simple y amigable, que fue pensada
                             desde las necesidades del usuario, procurando entregar una
                             respuesta inmediata. Business Inventory te permite registrar el
@@ -90,15 +90,15 @@ function Somos() {
           />
 
         </Grid> */}
-         <Grid container style={{ backgroundColor: "#1a1969", width: "100%", height: "80px" }}>
+                <Grid container style={{ backgroundColor: "#1a1969", width: "100%", height: "80px" }}>
                     <Grid xs={3} md={3}>
                         <img src={Icono1} alt="left" style={{ height: "80px", width: "80px", marginLeft: "25px" }} />
                     </Grid>
                     <Grid xs={6} md={6}>
-                    <h4 className="text-white text-center mt-2"><b>Control de inventario en tiempo real</b></h4>
+                        <h4 className="text-white text-center mt-2"><b>Control de inventario en tiempo real</b></h4>
                     </Grid>
                     <Grid xs={3} md={3}>
-                    <img src={Icono2} align="right" alt="" style={{ height: "80px", width: "100px", marginRight: "25px"}} />
+                        <img src={Icono2} align="right" alt="" style={{ height: "80px", width: "100px", marginRight: "25px" }} />
                     </Grid>
                 </Grid>
             </Grid>
